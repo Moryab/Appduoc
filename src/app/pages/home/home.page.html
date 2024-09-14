@@ -1,20 +1,42 @@
+<ion-menu side="end" contentId="main-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Cuenta user</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list class="menu-list">
+
+      <ion-item routerLink="/perfil">
+        <ion-icon slot="start" name="person-outline"></ion-icon>
+        <ion-label>Perfil</ion-label>
+      </ion-item>
+
+      <ion-item class="logout-item">
+        <ion-icon slot="start" name="log-out-outline"></ion-icon>
+        <ion-label>Cerrar sesión</ion-label>
+      </ion-item>
+
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
 <ion-header>
   <ion-toolbar color="dark">
-    <ion-icon slot="start" name="menu" class="ion-padding" size="large"></ion-icon>
+    <ion-menu-button slot="end" class="menu">
+      <ion-icon name="person-outline" class="ion-padding" class="icono_perfil"></ion-icon>
+    </ion-menu-button>
     <ion-title class="ion-text-center">Home</ion-title>
-    <ion-icon slot="end" name="person-outline" class="ion-padding" size="large"></ion-icon>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-  <ion-text color="dark" class="ion-text-center" >
+<ion-content id="main-content" class="ion-padding">
+  <ion-text color="dark" class="ion-text-center">
     <h1>Página de Inicio</h1>
   </ion-text>
   <ion-list [inset]="true" lines="full" mode="ios">
     <ion-list-header mode="ios" color="dark">
-      <ion-label>Aqui van las paginas xd</ion-label>
+      <ion-label>Aquí van las páginas xd</ion-label>
     </ion-list-header>
-
- 
   </ion-list>
 </ion-content>

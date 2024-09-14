@@ -1,0 +1,7 @@
+{
+  "name": "Appduoc",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

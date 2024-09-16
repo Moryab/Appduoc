@@ -1,6 +1,6 @@
 <ion-menu side="end" contentId="main-content">
   <ion-header>
-    <ion-toolbar>
+    <ion-toolbar color="dark">
       <ion-title>Cuenta user</ion-title>
     </ion-toolbar>
   </ion-header>
@@ -16,7 +16,6 @@
         <ion-icon slot="start" name="log-out-outline"></ion-icon>
         <ion-label>Cerrar sesión</ion-label>
       </ion-item>
-
     </ion-list>
   </ion-content>
 </ion-menu>
@@ -24,7 +23,7 @@
 <ion-header>
   <ion-toolbar color="dark">
     <ion-menu-button slot="end" class="menu">
-      <ion-icon name="person-outline" class="ion-padding" class="icono_perfil"></ion-icon>
+      <ion-icon name="person-outline" class="ion-padding icono_perfil"></ion-icon>
     </ion-menu-button>
     <ion-title class="ion-text-center">Home</ion-title>
   </ion-toolbar>
@@ -34,9 +33,12 @@
   <ion-text color="dark" class="ion-text-center">
     <h1>Página de Inicio</h1>
   </ion-text>
-  <ion-list [inset]="true" lines="full" mode="ios">
-    <ion-list-header mode="ios" color="dark">
-      <ion-label>Aquí van las páginas xd</ion-label>
-    </ion-list-header>
+  <ion-list lines="full" mode="ios">
+
+      <ion-item routerLink="{{menulink.link}}" detail="true" *ngFor="let menulink of links" >
+        <ion-icon slot="start" name="{{menulink.icono}}"></ion-icon>
+        <ion-label class="ion-text-capitalize">{{menulink.label}}</ion-label>
+      </ion-item>
+
   </ion-list>
 </ion-content>

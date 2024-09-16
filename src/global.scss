@@ -35,3 +35,27 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import "@ionic/angular/css/palettes/dark.system.css";
+
+/*  estilo global para la barra de navegacion */
+.menu {
+    --color: #ffffff;
+    /* Cambia el color del ícono a blanco */
+    --background: transparent;
+    /* Si quieres que el fondo sea transparente */
+}
+
+.menu-list {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.logout-item {
+    margin-top: auto;
+    /* Empuja el ítem hacia el final del contenedor flex */
+}
+
+.icono_perfil {
+    font-size: 27px;
+    /* Ajusta el tamaño según sea necesario */
+}

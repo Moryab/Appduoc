@@ -1,10 +1,39 @@
+<ion-menu side="end" contentId="main-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Cuenta user</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+    <ion-list class="menu-list">
+      <ion-item routerLink="/perfil">
+        <ion-icon slot="start" name="person-outline"></ion-icon>
+        <ion-label>Perfil</ion-label>
+      </ion-item>
+
+      <ion-item class="logout-item">
+        <ion-icon slot="start" name="log-out-outline"></ion-icon>
+        <ion-label>Cerrar sesión</ion-label>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+
+
 <ion-header>
-  <ion-toolbar color="tertiary">
+  <ion-toolbar color="dark">
+
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/home" text="Volver"></ion-back-button>
     </ion-buttons>
-    <ion-title class="ion-text-capitalize">peo</ion-title>
-    <ion-icon slot="end" name="person" class="ion-padding" size="large"></ion-icon>
-  
-  </ion-toolbar>
+
+    <ion-menu-button slot="end" class="menu">
+      <ion-icon name="person-outline" class="ion-padding icono_perfil"></ion-icon>
+    </ion-menu-button>
+
+    <ion-title class="ion-text-capitalize">{{titulo}}</ion-title> 
+
+   </ion-toolbar>
 </ion-header>

@@ -8,21 +8,6 @@ import { Menulink } from 'src/app/interfaces/menulink';
 })
 export class HomePage implements OnInit {
 
-  links:Menulink[]=[
-
-    {
-      link:'/alertas',
-      icono:'warning-outline',
-      label:'alertas'
-    },
-
-    {
-      link:'/formulario',
-      icono:'reader-outline',
-      label:'formulario'
-    }
-
-  ]
 
   constructor() { }
 

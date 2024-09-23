@@ -1,44 +1,36 @@
-<ion-menu side="end" contentId="main-content">
-  <ion-header>
-    <ion-toolbar color="dark">
-      <ion-title>Cuenta user</ion-title>
-    </ion-toolbar>
-  </ion-header>
-  <ion-content>
-    <ion-list class="menu-list">
-
-      <ion-item routerLink="/perfil">
-        <ion-icon slot="start" name="person-outline"></ion-icon>
-        <ion-label>Perfil</ion-label>
-      </ion-item>
-
-      <ion-item class="logout-item">
-        <ion-icon slot="start" name="log-out-outline"></ion-icon>
-        <ion-label>Cerrar sesión</ion-label>
-      </ion-item>
-    </ion-list>
-  </ion-content>
-</ion-menu>
-
 <ion-header>
-  <ion-toolbar color="dark">
-    <ion-menu-button slot="end" class="menu">
-      <ion-icon name="person-outline" class="ion-padding icono_perfil"></ion-icon>
-    </ion-menu-button>
-    <ion-title class="ion-text-center">Home</ion-title>
+  <ion-toolbar class="toolbar-home">
+    <ion-title class="ion-text-center">RegistrAPP</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content id="main-content" class="ion-padding">
-  <ion-text color="dark" class="ion-text-center">
-    <h1>Página de Inicio</h1>
-  </ion-text>
-  <ion-list lines="full" mode="ios">
+<div class="logo-container">
+  <img src="assets/icon/img/Logo-Duoc-UC.png" alt="Logo Duoc" class="logo-duoc">
+</div>
 
-      <ion-item routerLink="{{menulink.link}}" detail="true" *ngFor="let menulink of links" >
-        <ion-icon slot="start" name="{{menulink.icono}}"></ion-icon>
-        <ion-label class="ion-text-capitalize">{{menulink.label}}</ion-label>
-      </ion-item>
+<div id="intro">
+  <p>Desde esta aplicación podrás escanear un Código QR provisto por tu docente para registrar tu asistencia a clases.
+  </p>
 
-  </ion-list>
-</ion-content>
+  <p>Si eres docente, podrás generar un Código QR vinculado a la clase actual para que tus alumnos puedan escanearlo y
+    registrar su asistencia.</p>
+</div>
+
+<div class="banner">
+  <strong>Ingresa para utilizar la aplicación:</strong>
+  <ion-button class="btn-login" routerLink="/login" routerDirection="forward" expand="block">Iniciar
+    sesión</ion-button>
+</div>
+
+<div class="banner">
+  <strong>Si no tienes cuenta registrarte aquí:</strong>
+  <ion-button class="btn-register" routerLink="/register" routerDirection="forward"
+    expand="block">Registrarse</ion-button>
+</div>
+
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-title class="ion-text-center"></ion-title>
+  </ion-toolbar>
+</ion-footer>

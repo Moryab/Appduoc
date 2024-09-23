@@ -1,0 +1,40 @@
+<app-encabezado titulo="RegistrAPP"></app-encabezado>
+
+<ion-content class="ion-padding">
+  <!-- Contenedor para centrar el formulario -->
+  <div class="form-container">
+    <ion-text class="ion-text-center">
+      <h1>Iniciar Sesion</h1>
+    </ion-text>
+
+    <form #miForm="ngForm" (ngSubmit)="iniciar_sesion()">
+      <ion-list>
+        <ion-item>
+          <ion-input required type="text" label="Nombre de Usuario"
+            labelPlacement="floating" 
+            placeholder="Nombre"
+            [(ngModel)]="usr.username"
+            name="nom_usuario_input"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input required type="password" label="Contraseña" 
+            labelPlacement="floating"
+            [(ngModel)]="usr.password"
+            name="usr_pass_input"  
+            placeholder="***********"></ion-input>
+        </ion-item>
+
+        <ion-button class="btn-login" type="submit" expand="block" fill="solid" [disabled]="miForm.invalid">
+          Iniciar sesión
+        </ion-button>
+      </ion-list>
+    </form>
+  </div>
+
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-title class="ion-text-center"></ion-title>
+  </ion-toolbar>
+</ion-footer>

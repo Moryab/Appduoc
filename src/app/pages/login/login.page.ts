@@ -4,17 +4,19 @@ import { AlertController } from '@ionic/angular';
 import { UsuarioLog } from 'src/app/interfaces/usuario';
 
 @Component({
-  selector: 'app-formulario',
-  templateUrl: './formulario.page.html',
-  styleUrls: ['./formulario.page.scss'],
+  selector: 'app-login',
+  templateUrl: './login.page.html',
+  styleUrls: ['./login.page.scss'],
 })
-export class FormularioPage implements OnInit {
+export class LoginPage implements OnInit {
 
   usr:UsuarioLog={
     username:'',
     password:''
 
   }
+  
+
   constructor(private router:Router, private alertController:AlertController) { }
 
   ngOnInit() {
@@ -36,17 +38,17 @@ export class FormularioPage implements OnInit {
     const alert = await this.alertController.create({
       header: 'Acceso denegado',
       subHeader: 'Usuario y/o contraseña incorrecta',
-      message: 'Vuelva a intentarlo',
+      message: 'vuelva a intentar',
       backdropDismiss:false,
       buttons: [ {
         text:"Aceptar",
-        cssClass:'btn-verde',
+        cssClass:'btn-login',
         handler:()=>{
-          console.log("Apreto aceptar desde controller");
         }
       },],
     });
 
     await alert.present();
   }
+
 }

@@ -1,0 +1,59 @@
+<app-encabezado titulo="RegistrAPP"></app-encabezado>
+
+<ion-content class="ion-padding">
+
+
+  <!-- Contenedor para centrar el formulario -->
+  <div class="form-container">
+    <ion-text class="ion-text-center">
+      <h1>Registrarse</h1>
+    </ion-text>
+    <form #miForm="ngForm" (ngSubmit)="registrar()">
+      <ion-list>
+
+        <ion-item>
+          <ion-input required type="text" label="Nombre"
+            labelPlacement="floating" 
+            placeholder="Nombre"
+            [(ngModel)]="usr.nombre"
+            name="nombre_input"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-input required type="text" label="Apellido"
+            labelPlacement="floating" 
+            placeholder="Apellido"
+            [(ngModel)]="usr.apellido"
+            name="apellido_input"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-input required type="email" label="Correo"
+            labelPlacement="floating" 
+            placeholder="Correo electrónico"
+            [(ngModel)]="usr.correo"
+            name="correo_input"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-input required type="password" label="Contraseña" 
+            labelPlacement="floating"
+            [(ngModel)]="usr.password"
+            name="contraseña_input"  
+            placeholder="***********"></ion-input>
+        </ion-item>
+
+        <ion-button class="btn-login" type="submit" expand="block" fill="solid" [disabled]="miForm.invalid">
+          Registrarse
+        </ion-button>
+      </ion-list>
+    </form>
+  </div>
+
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-title class="ion-text-center"></ion-title>
+  </ion-toolbar>
+</ion-footer>

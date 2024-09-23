@@ -3,3 +3,10 @@ export interface UsuarioLog{
     password:string,
    
 }
+
+export interface UsuarioRegister{
+    nombre:string,
+    apellido:string,
+    correo:string,
+    password:string
+}

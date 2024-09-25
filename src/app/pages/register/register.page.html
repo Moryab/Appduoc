@@ -36,6 +36,15 @@
         </ion-item>
 
         <ion-item>
+          <ion-input required type="text" label="Rut" 
+            labelPlacement="floating"
+            [(ngModel)]="usr.run"
+            name="run_input"  
+            placeholder="ej:21.434.343-2"
+            maxlength="12"></ion-input>
+        </ion-item>
+
+        <ion-item>
           <ion-input required type="password" label="Contraseña" 
             labelPlacement="floating"
             [(ngModel)]="usr.password"
@@ -43,7 +52,9 @@
             placeholder="***********"></ion-input>
         </ion-item>
 
-        <ion-button class="btn-login" type="submit" expand="block" fill="solid" [disabled]="miForm.invalid">
+
+        <ion-button class="btn-login" type="submit" expand="block" fill="solid">
+          <!-- [disabled]="miForm.invalid" -->
           Registrarse
         </ion-button>
       </ion-list>

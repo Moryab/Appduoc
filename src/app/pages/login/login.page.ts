@@ -22,14 +22,18 @@ export class LoginPage implements OnInit {
   ngOnInit() {
   }
 
-  iniciar_sesion(){
-    if(this.usr.username=="user" && this.usr.password=="123"){
+  iniciar_sesion() {
+    // Usuario Alumno
+    if (this.usr.username === "user" && this.usr.password === "123") {
+      this.router.navigate(["/home"]);
+    // Usuario Profesor
+    } else if (this.usr.username === "profeduoc" && this.usr.password === "123") {
       this.router.navigate(["/cursos"]);
-    }
-    else{
+    } else {
       this.alerta();
     }
   }
+  
 
 
   async alerta(){

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cursos',
@@ -8,10 +8,10 @@ import { NavController } from '@ionic/angular';
 })
 export class CursosPage implements OnInit {
 
-  constructor(private navCtrl: NavController) { }
+  constructor(private router:Router) { }
 
   asistencia() {
-    this.navCtrl.navigateForward('/asistencias');
+    this.router.navigate(["/asistencias"]);
   }
 
   ngOnInit() {

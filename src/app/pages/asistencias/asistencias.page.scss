@@ -3,13 +3,9 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: 20px; /* Ajusta según la distancia deseada desde el top */
+    margin-top: 60px; /* Ajusta según la distancia deseada desde el top */
   }
   
-  h2, h3 {
-    margin: 0; /* Para evitar espacios innecesarios */
-    text-align: center; /* Asegura que el texto esté centrado */
-  }
 
   .class-info {
     display: flex;
@@ -38,5 +34,14 @@
       }
     }
   }
+
+  svg {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+  }
   
-  
+  .infinite-scroll-content {
+    text-align: center;
+    padding: 20px 0;
+  }

@@ -24,7 +24,7 @@ export class LoginPage implements OnInit {
 
   iniciar_sesion(){
     if(this.usr.username=="user" && this.usr.password=="123"){
-      this.router.navigate(["/home"]);
+      this.router.navigate(["/cursos"]);
     }
     else{
       this.alerta();

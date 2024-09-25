@@ -11,7 +11,7 @@ export class CursosPage implements OnInit {
   constructor(private navCtrl: NavController) { }
 
   asistencia() {
-    this.navCtrl.navigateForward('/home');
+    this.navCtrl.navigateForward('/asistencias');
   }
 
   ngOnInit() {

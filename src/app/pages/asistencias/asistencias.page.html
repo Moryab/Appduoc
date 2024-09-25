@@ -1,0 +1,90 @@
+<ion-tabs>
+  <!-- Contenido para cada tab -->
+
+  <ion-tab tab="asistencia">
+    <!-- Contenido relacionado a la asistencia -->
+    <div class="contenedor-titulos">
+      <h2>Asistencia</h2>
+      <h3>APLICACIONES_MOVILES_003D</h3>
+    </div>
+
+    <!--Lista de clases-->
+    <ion-list>
+      <ion-item>
+        <ion-label class="class-info">
+          <h2>Clase 1</h2>
+          <p>Hora: 10:00 AM</p>
+        </ion-label>
+        <ion-label class="date-info" slot="end">
+          <h3>18 - Septiembre - 2024</h3>
+          <ion-badge color="primary">
+            <ion-icon name="people"></ion-icon> 10
+          </ion-badge>
+          <ion-badge color="success">
+            <ion-icon name="checkmark-circle"></ion-icon> 7
+          </ion-badge>
+          <ion-badge color="danger">
+            <ion-icon name="alert-circle"></ion-icon> 3
+          </ion-badge>
+        </ion-label>
+      </ion-item>
+      <!-- Repite el ion-item para cada clase -->
+      <ion-item>
+        <ion-label class="class-info">
+          <h2>Clase 2</h2>
+          <p>Hora: 08:31 AM</p>
+        </ion-label>
+        <ion-label class="date-info" slot="end">
+          <h3>25 - Septiembre - 2024</h3>
+          <ion-badge color="primary">
+            <ion-icon name="people"></ion-icon> 10
+          </ion-badge>
+          <ion-badge color="success">
+            <ion-icon name="checkmark-circle"></ion-icon> 5
+          </ion-badge>
+          <ion-badge color="danger">
+            <ion-icon name="alert-circle"></ion-icon> 5
+          </ion-badge>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+    
+
+    <!--Boton QR-->
+    <ion-button expand="full" color="primary">
+      <ion-icon slot="start" name="qr-code"></ion-icon>
+      Generar QR
+    </ion-button>
+  </ion-tab>
+
+  <ion-tab tab="students">
+    <!-- Contenido relacionado a los estudiantes -->
+    <h2>Lista de estudiantes</h2>
+
+  </ion-tab>
+
+  <ion-tab tab="estadisticas">
+    <!-- Contenido relacionado a las estadísticas -->
+    <h2>Estadisticas de asitencias</h2>
+  </ion-tab>
+
+
+  <!--Tab(botones)-->
+  <ion-tab-bar slot="bottom">
+    <!-- Asistencia Tab -->
+    <ion-tab-button tab="asistencia">
+      <ion-icon name="clipboard-outline"></ion-icon>
+      Asistencia
+    </ion-tab-button>
+    <!-- Estudiantes Tab -->
+    <ion-tab-button tab="students">
+      <ion-icon name="school-outline"></ion-icon>
+      Estudiantes
+    </ion-tab-button>
+    <!-- Estadistica asistencia Tab -->
+    <ion-tab-button tab="estadisticas">
+      <ion-icon name="stats-chart-outline"></ion-icon>
+      <ion-label>Estadísticas</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>

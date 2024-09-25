@@ -59,7 +59,11 @@
 
   <ion-tab tab="students">
     <!-- Contenido relacionado a los estudiantes -->
-    <h2>Lista de estudiantes</h2>
+    <ion-header>
+      <ion-toolbar class="titulo">
+        <ion-title>Lista de estudiantes</ion-title>
+      </ion-toolbar>
+    </ion-header>
     <ion-content>
       <ion-list>
         <ion-item-sliding *ngFor="let item of items; let index">

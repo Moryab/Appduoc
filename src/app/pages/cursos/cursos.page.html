@@ -1,16 +1,39 @@
-<app-encabezado titulo="Cursos"></app-encabezado>
+<app-encabezado titulo="Cursos">
+  <ion-searchbar class="search-bar"></ion-searchbar>
+</app-encabezado>
 
-<ion-card (click)="asistencia()">
-  <img alt="Silhouette of mountains" src="assets/icon/img/appmovil.jpg"/>
-  <ion-card-header>
-    <ion-card-title>APLICACIONES MOVILES_003D</ion-card-title>
-    <ion-card-subtitle>2024_2_CO_PGY4121_24236449_PCT</ion-card-subtitle>
-  </ion-card-header>
+<ion-content class="ion-padding">
+  <h3>Asignaturas</h3>
 
-  <ion-card-content>
-    Alejandro Sepulveda
-  </ion-card-content>
-</ion-card>
+  <!--Buscar-->
+  <ion-searchbar class="search-bar"></ion-searchbar>
+
+  <!--Tarjetas de cursos-->
+  <ion-card (click)="asistencia()" class="custom-card">
+    <img alt="Silhouette of mountains" src="assets/icon/img/appmovil.jpg" />
+    <ion-card-header>
+      <ion-card-title>APLICACIONES MOVILES_003D</ion-card-title>
+      <ion-card-subtitle>2024_2_CO_PGY4121_24236449_PCT</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>Alejandro Sepulveda</ion-card-content>
+  </ion-card>
+
+  <ion-card (click)="asistencia()" class="custom-card">
+    <img alt="Silhouette of mountains" src="assets/icon/img/bdatos.png" />
+    <ion-card-header>
+      <ion-card-title>BASE DE DATOS_005D</ion-card-title>
+      <ion-card-subtitle>2024_2_CO_PGY4121_24236449_PCT</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>Mabelcita</ion-card-content>
+  </ion-card>
+</ion-content>
+
+<!--Boton para agregar clases-->
+<ion-fab vertical="bottom" horizontal="end" slot="fixed">
+  <ion-fab-button>
+    <ion-icon name="add"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
 
 <ion-footer>
   <ion-toolbar>

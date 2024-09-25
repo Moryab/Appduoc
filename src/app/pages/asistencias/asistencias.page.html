@@ -65,7 +65,7 @@
       </ion-toolbar>
     </ion-header>
     <ion-content>
-      <ion-list>
+      <ion-list class="lista-asistencia">
         <ion-item-sliding *ngFor="let item of items; let index">
           <ion-item>
             <ion-avatar slot="start">
@@ -87,7 +87,7 @@
         </ion-item-sliding>
       </ion-list>
       <ion-infinite-scroll (ionInfinite)="loadData($event)">
-        <ion-infinite-scroll-content></ion-infinite-scroll-content>
+        <ion-infinite-scroll-content>Cargando...</ion-infinite-scroll-content>
       </ion-infinite-scroll>
 
       <!--Boton para agregar estudiante-->

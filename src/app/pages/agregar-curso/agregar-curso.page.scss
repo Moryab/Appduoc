@@ -1,0 +1,44 @@
+ion-content {
+  --padding-start: 16px;
+  --padding-end: 16px;
+}
+
+ion-item {
+  margin-bottom: 16px;
+}
+
+.image-upload {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  border: 2px dashed #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.image-upload input[type="file"] {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.upload-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #ccc;
+}
+
+.upload-icon ion-icon {
+  font-size: 48px;
+  margin-bottom: 8px;
+}
+
+ion-footer {
+  --padding-start: 16px;
+  --padding-end: 16px;
+}

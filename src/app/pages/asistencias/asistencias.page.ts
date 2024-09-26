@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { InfiniteScrollCustomEvent } from '@ionic/angular';
+import { Router } from '@angular/router';
+import { AlertController, InfiniteScrollCustomEvent } from '@ionic/angular';
 
 @Component({
   selector: 'app-asistencias',
@@ -8,6 +9,8 @@ import { InfiniteScrollCustomEvent } from '@ionic/angular';
 })
 export class AsistenciasPage implements OnInit {
   items: string[] = [];
+
+  constructor(private router:Router,private alertController: AlertController) { }
 
   ngOnInit() {
     for (let i = 1; i <= 30; i++) {
@@ -37,12 +40,57 @@ export class AsistenciasPage implements OnInit {
     console.log('Ver ubicación de:', student);
   }
 
-  editStudent(student: string) {
-    console.log('Editar estudiante:', student);
+  async editStudent(student: string) {
+    const alert = await this.alertController.create({
+      header: 'Confirmación',
+      message: '¿Está seguro que desea editar este estudiante?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            console.log('Cancelado');
+          },
+        },
+        {
+          text: 'Editar',
+          handler: () => {
+            // Aquí puedes redirigir a la página de edición o realizar la lógica de edición
+            console.log('Editar estudiante:', student);
+            this.router.navigate(['/add-alum']); // Ejemplo de redirección
+          },
+        },
+      ],
+    });
+  
+    await alert.present();
   }
-
-  deleteStudent(student: string) {
-    this.items = this.items.filter(s => s !== student);
-    console.log('Eliminar estudiante:', student);
+  
+  async deleteStudent(student: string) {
+    const alert = await this.alertController.create({
+      header: 'Confirmación',
+      message: '¿Está seguro que desea eliminar este estudiante?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            console.log('Cancelado');
+          },
+        },
+        {
+          text: 'Eliminar',
+          handler: () => {
+            this.items = this.items.filter(s => s !== student);
+            console.log('Eliminar estudiante:', student);
+          },
+        },
+      ],
+    });
+  
+    await alert.present();
   }
+  
 }

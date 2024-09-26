@@ -1,0 +1,87 @@
+<app-encabezado titulo="Detalle de asistencia"></app-encabezado>
+
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-subtitle>10:30 - 12:30</ion-card-subtitle>
+      <ion-card-title>LUNES SEPT. 18</ion-card-title>
+      <p>APLICACIONES_MOVILES_003D</p>
+    </ion-card-header>
+
+    <ion-item>
+      <ion-label>Toma: 10:30</ion-label>
+      <ion-label slot="end">18/09/2024</ion-label>
+    </ion-item>
+  </ion-card>
+
+  <!-- Barra de búsqueda -->
+  <ion-searchbar placeholder="Buscar estudiante"></ion-searchbar>
+
+  <!-- Lista de estudiantes con estado de asistencia -->
+  <ion-list>
+    <!-- Estudiante presente -->
+    <ion-item>
+      <ion-label>
+        <h2>Roberto Alemán</h2>
+      </ion-label>
+      <ion-buttons slot="end">
+        <ion-button fill="clear">
+          <ion-icon class="icono-presentes" slot="icon-only" name="checkmark-circle"></ion-icon>
+        </ion-button>
+        <ion-button fill="clear">
+          <ion-icon slot="icon-only" name="remove-circle-outline"></ion-icon>
+        </ion-button>
+        <ion-button fill="clear">
+          <ion-icon slot="icon-only" name="time-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+
+    <!-- Estudiante ausente -->
+    <ion-item>
+      <ion-label>
+        <h2>Mario Graciani</h2>
+      </ion-label>
+      <ion-buttons slot="end">
+        <ion-button fill="clear">
+          <ion-icon slot="icon-only" name="checkmark-circle-outline"></ion-icon>
+        </ion-button>
+        <ion-button fill="clear">
+          <ion-icon class="icono-ausentes" slot="icon-only" name="close-circle"></ion-icon>
+        </ion-button>
+        <ion-button fill="clear">
+          <ion-icon slot="icon-only" name="time-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+
+    <!-- Estudiante justificado -->
+    <ion-item>
+      <ion-label>
+        <h2>Alexandra Perry</h2>
+      </ion-label>
+      <ion-buttons slot="end">
+        <ion-button fill="clear">
+          <ion-icon slot="icon-only" name="checkmark-circle-outline"></ion-icon>
+        </ion-button>
+        <ion-button fill="clear">
+          <ion-icon slot="icon-only" name="remove-circle-outline"></ion-icon>
+        </ion-button>
+        <ion-button fill="clear">
+          <ion-icon class="icono-justificado" slot="icon-only" name="time"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+  </ion-list>
+</ion-content>
+ <!--Boton guardar cambios-->
+ <ion-button expand="full" color="primary">
+  <ion-icon slot="start" name="folder-outline"></ion-icon>
+  Guardar cambios
+</ion-button>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-title class="ion-text-center"></ion-title>
+  </ion-toolbar>
+</ion-footer>

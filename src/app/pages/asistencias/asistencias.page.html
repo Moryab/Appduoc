@@ -17,15 +17,9 @@
         </ion-label>
         <ion-label class="date-info" slot="end">
           <h3>18 - Septiembre - 2024</h3>
-          <ion-badge color="primary">
-            <ion-icon name="people"></ion-icon> 10
-          </ion-badge>
-          <ion-badge color="success">
-            <ion-icon name="checkmark-circle"></ion-icon> 7
-          </ion-badge>
-          <ion-badge color="danger">
-            <ion-icon name="alert-circle"></ion-icon> 3
-          </ion-badge>
+          <ion-icon class="icono-personas" name="people-outline"></ion-icon> 10
+          <ion-icon class="icono-presentes" name="checkmark-circle-outline"></ion-icon> 5
+          <ion-icon class="icono-ausentes" name="close-circle-outline"></ion-icon> 5
         </ion-label>
 
       </ion-item>
@@ -37,15 +31,9 @@
         </ion-label>
         <ion-label class="date-info" slot="end">
           <h3>25 - Septiembre - 2024</h3>
-          <ion-badge color="primary">
-            <ion-icon name="people"></ion-icon> 10
-          </ion-badge>
-          <ion-badge color="success">
-            <ion-icon name="checkmark-circle"></ion-icon> 5
-          </ion-badge>
-          <ion-badge color="danger">
-            <ion-icon name="alert-circle"></ion-icon> 5
-          </ion-badge>
+          <ion-icon class="icono-personas" name="people-outline"></ion-icon> 10
+          <ion-icon class="icono-presentes" name="checkmark-circle-outline"></ion-icon> 5
+          <ion-icon class="icono-ausentes" name="close-circle-outline"></ion-icon> 5
         </ion-label>
       </ion-item>
     </ion-list>
@@ -59,11 +47,9 @@
 
   <ion-tab tab="students">
     <!-- Contenido relacionado a los estudiantes -->
-    <ion-header>
-      <ion-toolbar class="titulo">
-        <ion-title>Lista de estudiantes</ion-title>
-      </ion-toolbar>
-    </ion-header>
+    <div class="contenedor-titulos">
+      <h3>Lista De Estudiantes</h3>
+    </div>
     <ion-content>
       <ion-list class="lista-asistencia">
         <ion-item-sliding *ngFor="let item of items; let index">

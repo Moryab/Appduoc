@@ -30,7 +30,11 @@ const routes: Routes = [
   {
     path: 'asistencias',
     loadChildren: () => import('./pages/asistencias/asistencias.module').then( m => m.AsistenciasPageModule)
+  },  {
+    path: 'detalle-asistencia',
+    loadChildren: () => import('./pages/detalle-asistencia/detalle-asistencia.module').then( m => m.DetalleAsistenciaPageModule)
   },
+
 
 ];
 

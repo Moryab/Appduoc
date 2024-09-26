@@ -3,11 +3,10 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: 20px; /* Ajusta según la distancia deseada desde el top */
+    margin-top: 70px; /* Ajusta según la distancia deseada desde el top */
   }
   
   h2, h3 {
-    margin: 0; /* Para evitar espacios innecesarios */
     text-align: center; /* Asegura que el texto esté centrado */
   }
 
@@ -38,6 +37,7 @@
       }
     }
   }
+
   /* Espaciar la lista de asistencia del toolbar */
 .lista-asistencia{
   margin-top: 20px;

@@ -46,13 +46,7 @@ ion-content {
   .time-a{
     color: #10dc60;
   }
-
-  //ion-infinite-scroll
-  ion-infinite-scroll {
-    background: transparent; /* Elimina el fondo si es necesario */
-  }
   
-  ion-infinite-scroll-content {
-    text-align: center; /* Centra el texto de carga */
+  .lista-asistencia{
+    margin-top: 70px;
   }
-  

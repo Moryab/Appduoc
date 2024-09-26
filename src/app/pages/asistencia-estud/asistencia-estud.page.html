@@ -46,7 +46,7 @@
     <ion-content>
       <!-- Aquí agregar el contenido para los estudiantes -->
       <ion-content>
-        <ion-list>
+        <ion-list class="lista-asistencia">
           <ion-item *ngFor="let item of items; let index">
             <ion-avatar slot="start">
               <img [src]="'https://picsum.photos/80/80?random=' + index" alt="avatar" />
@@ -54,9 +54,9 @@
             <ion-label>{{ item }}</ion-label>
           </ion-item>
         </ion-list>
-        <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
-          <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Cargando más estudiantes..."></ion-infinite-scroll-content>
-        </ion-infinite-scroll>        
+        <ion-infinite-scroll (ionInfinite)="loadData($event)">
+          <ion-infinite-scroll-content>Cargando...</ion-infinite-scroll-content>
+        </ion-infinite-scroll>      
       </ion-content>
     </ion-content>
   </ion-tab>

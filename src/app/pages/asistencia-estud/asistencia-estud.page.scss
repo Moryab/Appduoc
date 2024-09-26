@@ -1,14 +1,10 @@
 ion-content {
   --padding-start: 16px;
   --padding-end: 16px;
-  margin-top: 70px; /* Ajusta según la distancia deseada desde el top */
 }
 
-  ion-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 16px;
+.registro {
+    margin-top: 70px;
   }
   
   .left {

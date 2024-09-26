@@ -1,0 +1,51 @@
+ion-content {
+    --padding-start: 16px;
+    --padding-end: 16px;
+  }
+  
+  ion-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  
+  .left {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+  
+  .month {
+    color:#f04141; 
+    font-weight: bold;
+  }
+  
+  .date {
+    color: black;
+    font-weight: bold;
+  }
+  
+  .day {
+    color: gray;
+  }
+  
+  .time {
+    color: #f04141; /* Cambia esto al color que prefieras */
+  }
+  
+  ion-icon {
+    font-size: 24px;
+  }
+  .month-a{
+    color: #10dc60;
+  }
+  .time-a{
+    color: #10dc60;
+  }

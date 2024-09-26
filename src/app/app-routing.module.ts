@@ -38,6 +38,10 @@ const routes: Routes = [
     path: 'agregar-curso',
     loadChildren: () => import('./pages/agregar-curso/agregar-curso.module').then( m => m.AgregarCursoPageModule)
   },
+  {
+    path: 'asistencia-estud',
+    loadChildren: () => import('./pages/asistencia-estud/asistencia-estud.module').then( m => m.AsistenciaEstudPageModule)
+  },
 
 
 ];

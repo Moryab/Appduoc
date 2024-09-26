@@ -24,8 +24,8 @@ export class LoginPage implements OnInit {
 
   iniciar_sesion() {
     // Usuario Alumno
-    if (this.usr.username === "user" && this.usr.password === "123") {
-      this.router.navigate(["/home"]);
+    if (this.usr.username === "estudiante" && this.usr.password === "123") {
+      this.router.navigate(["/curso-estud"]);
     // Usuario Profesor
     } else if (this.usr.username === "profeduoc" && this.usr.password === "123") {
       this.router.navigate(["/cursos"]);

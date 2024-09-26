@@ -10,30 +10,42 @@
 
     <!--Lista de clases-->
     <ion-list>
-      <ion-item>
+      <ion-item routerLink="/detalle-asistencia" routerDirection="forward">
         <ion-label class="class-info">
           <h2>Clase 1</h2>
           <p>Hora: 10:00 AM</p>
         </ion-label>
         <ion-label class="date-info" slot="end">
           <h3>18 - Septiembre - 2024</h3>
-          <ion-icon class="icono-personas" name="people-outline"></ion-icon> 10
-          <ion-icon class="icono-presentes" name="checkmark-circle-outline"></ion-icon> 5
-          <ion-icon class="icono-ausentes" name="close-circle-outline"></ion-icon> 5
+          <ion-badge>
+            <ion-icon name="people"></ion-icon> 10
+          </ion-badge>
+          <ion-badge>
+            <ion-icon name="checkmark-circle"></ion-icon> 7
+          </ion-badge>
+          <ion-badge>
+            <ion-icon name="alert-circle"></ion-icon> 3
+          </ion-badge>
         </ion-label>
 
       </ion-item>
       <!-- Repite el ion-item para cada clase -->
-      <ion-item>
+      <ion-item routerLink="/detalle-asistencia" routerDirection="forward">
         <ion-label class="class-info">
           <h2>Clase 2</h2>
           <p>Hora: 08:31 AM</p>
         </ion-label>
         <ion-label class="date-info" slot="end">
           <h3>25 - Septiembre - 2024</h3>
-          <ion-icon class="icono-personas" name="people-outline"></ion-icon> 10
-          <ion-icon class="icono-presentes" name="checkmark-circle-outline"></ion-icon> 5
-          <ion-icon class="icono-ausentes" name="close-circle-outline"></ion-icon> 5
+          <ion-badge>
+            <ion-icon name="people"></ion-icon> 10
+          </ion-badge>
+          <ion-badge>
+            <ion-icon name="checkmark-circle"></ion-icon> 5
+          </ion-badge>
+          <ion-badge>
+            <ion-icon name="alert-circle"></ion-icon> 5
+          </ion-badge>
         </ion-label>
       </ion-item>
     </ion-list>
@@ -47,9 +59,11 @@
 
   <ion-tab tab="students">
     <!-- Contenido relacionado a los estudiantes -->
-    <div class="contenedor-titulos">
-      <h3>Lista De Estudiantes</h3>
-    </div>
+    <ion-header>
+      <ion-toolbar class="titulo">
+        <ion-title>Lista de estudiantes</ion-title>
+      </ion-toolbar>
+    </ion-header>
     <ion-content>
       <ion-list class="lista-asistencia">
         <ion-item-sliding *ngFor="let item of items; let index">

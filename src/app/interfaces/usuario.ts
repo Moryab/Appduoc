@@ -11,3 +11,12 @@ export interface UsuarioRegister{
     password:string,
     run:string
 }
+
+export interface UsuarioAddAlum {
+    nombre:string,
+    segundo_nombre:string,
+    apellido:string,
+    segundo_apellido:string,
+    correo:string,
+    run:string
+}

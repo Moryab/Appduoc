@@ -30,9 +30,14 @@ const routes: Routes = [
   {
     path: 'asistencias',
     loadChildren: () => import('./pages/asistencias/asistencias.module').then( m => m.AsistenciasPageModule)
-  },  {
+  },
+  {
     path: 'detalle-asistencia',
     loadChildren: () => import('./pages/detalle-asistencia/detalle-asistencia.module').then( m => m.DetalleAsistenciaPageModule)
+  },
+  {
+    path: 'add-alum',
+    loadChildren: () => import('./pages/add-alum/add-alum.module').then( m => m.AddAlumPageModule)
   },
   {
     path: 'agregar-curso',

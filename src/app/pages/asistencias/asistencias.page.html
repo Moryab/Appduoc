@@ -73,14 +73,14 @@
             </ion-avatar>
             <ion-label>{{ item }}</ion-label>
             <ion-buttons slot="end">
-              <ion-button color="tertiary" (click)="viewLocation(item)">
-                <ion-icon slot="icon-only" name="location"></ion-icon>
+              <ion-button (click)="viewLocation(item)">
+                <ion-icon class="icon-location" slot="icon-only" name="location"></ion-icon>
               </ion-button>
-              <ion-button color="primary" (click)="editStudent(item)">
-                <ion-icon slot="icon-only" name="create"></ion-icon>
+              <ion-button (click)="editStudent(item)">
+                <ion-icon class="icon-edit" slot="icon-only" name="create"></ion-icon>
               </ion-button>
-              <ion-button color="danger" (click)="deleteStudent(item)">
-                <ion-icon slot="icon-only" name="trash"></ion-icon>
+              <ion-button (click)="deleteStudent(item)">
+                <ion-icon class="icono-ausentes" slot="icon-only" name="trash"></ion-icon>
               </ion-button>
             </ion-buttons>
           </ion-item>

@@ -37,43 +37,56 @@
 @import "@ionic/angular/css/palettes/dark.system.css";
 
 ion-footer {
-    ion-toolbar {
-        --background: #042c54;
-        padding: 10px;
+  ion-toolbar {
+    --background: #042c54;
+    padding: 10px;
 
-    }
+  }
 }
 
 
 .btn-login {
-    --background: #003366;
-    --color: #fff;
-    --border-radius: 5px;
-  }
-  
-.btn-register {
-    --background: #FFD700;
-    --color: #000;
-    --border-radius: 5px;
-  }
+  --background: #003366;
+  --color: #fff;
+  --border-radius: 5px;
+}
 
-.volver{
-    color: white;
+.btn-register {
+  --background: #FFD700;
+  --color: #000;
+  --border-radius: 5px;
+}
+
+.volver {
+  color: white;
 }
 
 //ICONOS asistencias y detalle-asistencia
-.icono-personas{
+.icono-personas {
   color: rgb(46, 115, 220);
 }
-.icono-presentes{
+
+.icono-presentes {
   color: #10dc60;
 }
-.icono-ausentes{
+
+.icono-ausentes {
   color: #f04141;
 }
-.icono-justificado{
+
+.icono-justificado {
   color: #ffc409;
 }
-ion-icon{
+
+ion-icon {
   color: #ccc;
 }
+
+.icon-location {
+  color: #7a37ad;
+}
+
+.icon-edit {
+  color: #208cd8;
+}
+

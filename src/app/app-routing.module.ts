@@ -12,10 +12,6 @@ const routes: Routes = [
     loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule)
   },
   {
-    path: 'alertas',
-    loadChildren: () => import('./pages/alertas/alertas.module').then( m => m.AlertasPageModule)
-  },
-  {
     path: 'login',
     loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
   },
@@ -46,7 +42,8 @@ const routes: Routes = [
   {
     path: 'asistencia-estud',
     loadChildren: () => import('./pages/asistencia-estud/asistencia-estud.module').then( m => m.AsistenciaEstudPageModule)
-  },  {
+  },
+  {
     path: 'curso-estud',
     loadChildren: () => import('./pages/curso-estud/curso-estud.module').then( m => m.CursoEstudPageModule)
   },

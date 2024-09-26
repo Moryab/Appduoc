@@ -46,7 +46,11 @@ const routes: Routes = [
   {
     path: 'asistencia-estud',
     loadChildren: () => import('./pages/asistencia-estud/asistencia-estud.module').then( m => m.AsistenciaEstudPageModule)
+  },  {
+    path: 'curso-estud',
+    loadChildren: () => import('./pages/curso-estud/curso-estud.module').then( m => m.CursoEstudPageModule)
   },
+
 
 
 ];

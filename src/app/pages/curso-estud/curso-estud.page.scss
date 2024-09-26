@@ -1,0 +1,36 @@
+/* Estilo general del h3 */
+h3 {
+    font-size: 1.5rem; /* Tamaño adecuado */
+    margin-top: 20px; /* Espacio desde el borde superior */
+    text-align: center; /* Centra el título */
+  }
+  
+  /* Contenedor para centrar las tarjetas */
+  .content-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Asegura que las tarjetas queden centradas */
+    padding: 0 10px; /* Ajuste de padding lateral */
+  }
+  
+  /* Estilo responsivo para las tarjetas */
+  .custom-card {
+    width: 100%; /* Para que ocupe todo el ancho disponible */
+    max-width: 320px; /* Limita el tamaño máximo de la tarjeta */
+    margin: 10px auto; /* Centra y agrega espacio alrededor de las tarjetas */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Añade sombra sutil */
+    border-radius: 8px; /* Redondea las esquinas */
+    margin-bottom: 40px; /* Espacio entre tarjetas, tambien sirve margin-top */
+  }
+  
+  .custom-card img {
+    width: 100%; /* Asegura que la imagen se ajuste al tamaño de la tarjeta */
+    height: auto; /* Mantiene la proporción de la imagen */
+    border-radius: 8px 8px 0 0; /* Redondea las esquinas superiores */
+  }
+  
+  /* Estilo para el buscador */
+  .search-bar {
+    width: 100%;
+    margin: 10px 0;
+  }

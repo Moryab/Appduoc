@@ -1,4 +1,5 @@
 <app-encabezado titulo="Control de Asistencia"></app-encabezado>
+
 <ion-tabs>
   <!-- Contenido para cada tab -->
 
@@ -49,17 +50,13 @@
 
   <ion-tab tab="students">
     <!-- Contenido relacionado a los estudiantes -->
-    <ion-header>
-      <ion-toolbar class="titulo">
-        <ion-title>Lista de estudiantes</ion-title>
-      </ion-toolbar>
-    </ion-header>
+
     <ion-content>
       <ion-list class="lista-asistencia">
         <ion-item-sliding *ngFor="let item of items; let index">
           <ion-item>
             <ion-avatar slot="start">
-              <img [src]="'https://picsum.photos/80/80?random=' + index" alt="avatar" />
+              <ion-img [src]="'https://picsum.photos/80/80?random=' + index"></ion-img>
             </ion-avatar>
             <ion-label>{{ item }}</ion-label>
             <ion-buttons slot="end">

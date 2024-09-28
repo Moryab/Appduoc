@@ -60,7 +60,7 @@
             </ion-avatar>
             <ion-label>{{ item }}</ion-label>
             <ion-buttons slot="end">
-              <ion-button (click)="viewLocation(item)">
+              <ion-button routerLink="/ubicacion" routerDirection="forward">
                 <ion-icon class="icon-location" slot="icon-only" name="location"></ion-icon>
               </ion-button>
               <ion-button (click)="editStudent(item)">

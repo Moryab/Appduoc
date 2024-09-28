@@ -47,6 +47,10 @@ const routes: Routes = [
     path: 'curso-estud',
     loadChildren: () => import('./pages/curso-estud/curso-estud.module').then( m => m.CursoEstudPageModule)
   },
+  {
+    path: 'ubicacion',
+    loadChildren: () => import('./pages/ubicacion/ubicacion.module').then( m => m.UbicacionPageModule)
+  },
 
 
 

@@ -15,7 +15,6 @@ export class RegisterPage implements OnInit {
     apellido: '',
     correo: '',
     password: '',
-    run:''
   };
 
   constructor(private router: Router, private alertController: AlertController) { }

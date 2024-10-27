@@ -9,7 +9,6 @@ export interface UsuarioRegister{
     apellido:string,
     correo:string,
     password:string,
-    run:string
 }
 
 export interface UsuarioAddAlum {

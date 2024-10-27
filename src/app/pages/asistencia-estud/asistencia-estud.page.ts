@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { InfiniteScrollCustomEvent } from '@ionic/angular';
+import { Alumno } from 'src/app/interfaces/ialumnos';
+import { DatosService } from 'src/app/services/datos.service';
 
 @Component({
   selector: 'app-asistencia-estud',
@@ -7,30 +8,18 @@ import { InfiniteScrollCustomEvent } from '@ionic/angular';
   styleUrls: ['./asistencia-estud.page.scss'],
 })
 export class AsistenciaEstudPage implements OnInit {
-  items: string[] = [];
+  items: Alumno[] = [];
 
-  constructor() { }
+  constructor(private datosService: DatosService) { }
 
   ngOnInit() {
-    for (let i = 1; i <= 30; i++) {
-      this.items.push(`Estudiante ${i}`);
-    }
+    this.loadInitialAlumnos();
   }
 
-  loadData(event: InfiniteScrollCustomEvent) {
-    setTimeout(() => {
-      const newItems = [];
-      const currentLength = this.items.length;
-      if (currentLength < 30) {
-        for (let i = currentLength + 1; i <= Math.min(currentLength + 10, 30); i++) {
-          newItems.push(`Estudiante ${i}`);
-        }
-        this.items.push(...newItems);
-      }
-      event.target.complete();
-    }, 500);
+  loadInitialAlumnos() {
+    this.datosService.getAlumnos(20).subscribe(response => { // Aqui poner valor de cuantos alumnos llamar "(20)""
+      this.items = response.results; // Asigna los resultados al array de items
+    });
   }
 
-
-  
 }

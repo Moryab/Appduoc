@@ -42,24 +42,19 @@
   </ion-tab>
 
    <!-- Contenido relacionado a los estudiantes -->
-  <ion-tab tab="students">
+   <ion-tab tab="students">
     <ion-content>
-      <!-- Aquí agregar el contenido para los estudiantes -->
-      <ion-content>
-        <ion-list class="lista-asistencia">
-          <ion-item *ngFor="let item of items; let index">
-            <ion-avatar slot="start">
-              <img [src]="'https://picsum.photos/80/80?random=' + index" alt="avatar" />
-            </ion-avatar>
-            <ion-label>{{ item }}</ion-label>
-          </ion-item>
-        </ion-list>
-        <ion-infinite-scroll (ionInfinite)="loadData($event)">
-          <ion-infinite-scroll-content>Cargando...</ion-infinite-scroll-content>
-        </ion-infinite-scroll>      
-      </ion-content>
+      <ion-list class="lista-asistencia">
+        <ion-item *ngFor="let item of items; let index">
+          <ion-avatar slot="start">
+            <img [src]="item.picture.thumbnail" alt="avatar" />
+          </ion-avatar>
+          <ion-label>{{ item.name.first }} {{ item.name.last }}</ion-label>
+        </ion-item>
+      </ion-list>
     </ion-content>
   </ion-tab>
+  
 
   <!-- Tab (botones) -->
   <ion-tab-bar slot="bottom">

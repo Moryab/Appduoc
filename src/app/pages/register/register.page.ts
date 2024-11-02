@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UsuarioRegister } from 'src/app/interfaces/usuario';
 import { AlertController } from '@ionic/angular';
+import { FirebaseService } from 'src/app/services/firebase.service';
 
 @Component({
   selector: 'app-register',
@@ -12,32 +13,40 @@ export class RegisterPage implements OnInit {
 
   usr: UsuarioRegister = {
     nombre: '',
-    apellido: '',
-    correo: '',
+    email: '',
     password: '',
   };
 
   constructor(private router: Router, private alertController: AlertController) { }
 
+  firebaseSvc = inject(FirebaseService);
+
   ngOnInit() {
   }
 
-  async registrar() {
-    // Verifica si todos los campos están completos
-    if (this.camposCompletos(this.usr)) {
-      // Si todos los campos están llenos, muestra alerta de registro exitoso
-      await this.alertaRegistroExitoso();
-      this.router.navigate(["/login"]); // Redirige al login
-    } else {
-      // Si falta algún campo, muestra alerta de registro fallido
-      await this.alertaRegistroFallido('Faltan campos obligatorios. Por favor, complétalos.');
+  registrar() {
+    if (this.usr) {
+      this.firebaseSvc.signUp({
+        nombre: this.usr.nombre,
+        email: this.usr.email,
+        password: this.usr.password,
+      })
+      .then((userCredential) => {
+        // Muestra el objeto similar al que se obtiene al iniciar sesión
+        console.log('Usuario registrado exitosamente:', userCredential);
+  
+        this.alertaRegistroExitoso();
+        this.firebaseSvc.updateUser(this.usr.nombre);
+        // Puedes redirigir al usuario a otra página aquí si lo deseas
+        this.router.navigate(['/login']);
+      })
+      .catch((error) => {
+        console.error('Error al registrar usuario:', error);
+        this.alertaRegistroFallido(error.message);
+      });
     }
   }
-
-  // Verifica si todos los campos del usuario están completos
-  camposCompletos(usuario: UsuarioRegister) {
-    return usuario.nombre && usuario.apellido && usuario.correo && usuario.password;
-  }
+  
 
   // Alerta para registro exitoso
   async alertaRegistroExitoso() {

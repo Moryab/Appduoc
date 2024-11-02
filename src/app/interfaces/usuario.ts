@@ -1,13 +1,11 @@
 export interface UsuarioLog{
-    username:string,
+    email:string,
     password:string,
-   
 }
 
 export interface UsuarioRegister{
     nombre:string,
-    apellido:string,
-    correo:string,
+    email:string,
     password:string,
 }
 

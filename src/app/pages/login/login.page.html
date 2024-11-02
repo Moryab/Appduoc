@@ -10,10 +10,10 @@
     <form #miForm="ngForm" (ngSubmit)="iniciar_sesion()">
       <ion-list>
         <ion-item>
-          <ion-input required type="text" label="Nombre de Usuario"
+          <ion-input required type="text" label="Correo de Usuario"
             labelPlacement="floating" 
-            placeholder="Nombre"
-            [(ngModel)]="usr.username"
+            placeholder="Correo"
+            [(ngModel)]="usr.email"
             name="nom_usuario_input"></ion-input>
         </ion-item>
         <ion-item>

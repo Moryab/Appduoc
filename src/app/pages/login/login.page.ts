@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { UsuarioLog } from 'src/app/interfaces/usuario';
+import { FirebaseService } from 'src/app/services/firebase.service';
 
 @Component({
   selector: 'app-login',
@@ -10,49 +11,63 @@ import { UsuarioLog } from 'src/app/interfaces/usuario';
 })
 export class LoginPage implements OnInit {
 
-  usr:UsuarioLog={
-    username:'',
-    password:''
-
-  }
+  usr: UsuarioLog = {
+    email: '',
+    password: '',
+  };
   
+  constructor(
+    private router: Router,
+    private alertController: AlertController
+  ) { }
 
-  constructor(private router:Router, private alertController:AlertController) { }
+  firebaseSvc = inject(FirebaseService);
 
   ngOnInit() {
   }
 
   iniciar_sesion() {
-    // Usuario Alumno
-    if (this.usr.username === "estudiante" && this.usr.password === "123") {
-      this.router.navigate(["/curso-estud"]);
-    // Usuario Profesor
-    } else if (this.usr.username === "profeduoc" && this.usr.password === "123") {
-      this.router.navigate(["/cursos"]);
-    } else {
-      this.alerta();
+    if (this.usr) {
+      this.firebaseSvc.signIn({
+        email: this.usr.email,
+        password: this.usr.password,
+      })
+      .then((userCredential) => {
+        console.log('Inicio de sesión exitoso:', userCredential);
+        
+        // Redirigir según el dominio del correo electrónico
+        if (this.usr.email.endsWith('@duocuc.cl')) {
+          this.router.navigate(['/curso-estud']);
+        } else if (this.usr.email.endsWith('@profesor.duoc.cl')) {
+          this.router.navigate(['/cursos']);
+        } else {
+          // Maneja el caso donde no se cumple ninguna condición
+          console.warn('Dominio no reconocido');
+          this.alerta();
+        }
+
+      })
+      .catch((error) => {
+        console.error('Error en el inicio de sesión:', error);
+        this.alerta();
+      });
     }
   }
-  
 
-
-  async alerta(){
-
-   
+  async alerta() {
     const alert = await this.alertController.create({
       header: 'Acceso denegado',
       subHeader: 'Usuario y/o contraseña incorrecta',
-      message: 'vuelva a intentar',
-      backdropDismiss:false,
-      buttons: [ {
-        text:"Aceptar",
-        cssClass:'btn-login',
-        handler:()=>{
+      message: 'Vuelva a intentar',
+      backdropDismiss: false,
+      buttons: [{
+        text: "Aceptar",
+        cssClass: 'btn-login',
+        handler: () => {
         }
-      },],
+      }],
     });
 
     await alert.present();
   }
-
 }

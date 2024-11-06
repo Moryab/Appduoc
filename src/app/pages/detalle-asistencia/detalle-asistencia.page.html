@@ -1,6 +1,7 @@
 <app-encabezado titulo="Detalle de asistencia"></app-encabezado>
 
 <ion-content>
+  <!-- Aquí va el contenido de la página -->
   <ion-card>
     <ion-card-header>
       <ion-card-subtitle>10:30 - 12:30</ion-card-subtitle>
@@ -16,6 +17,11 @@
 
   <!-- Barra de búsqueda -->
   <ion-searchbar placeholder="Buscar estudiante"></ion-searchbar>
+
+  <ion-button class="guardar-cambios" expand="full" color="primary">
+    <ion-icon slot="start" name="folder-outline"></ion-icon>
+    Guardar cambios
+  </ion-button>
 
   <!-- Lista de estudiantes con estado de asistencia -->
   <ion-list>
@@ -74,12 +80,10 @@
     </ion-item>
   </ion-list>
 </ion-content>
- <!--Boton guardar cambios-->
- <ion-button expand="full" color="primary">
-  <ion-icon slot="start" name="folder-outline"></ion-icon>
-  Guardar cambios
-</ion-button>
 
+
+
+<!-- Botón para guardar cambios dentro del footer para que no se superponga -->
 <ion-footer>
   <ion-toolbar>
     <ion-title class="ion-text-center"></ion-title>

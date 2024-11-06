@@ -1,57 +1,38 @@
 <app-encabezado titulo="Control de Asistencia"></app-encabezado>
 
 <ion-tabs>
-  <!-- Contenido para cada tab -->
-
+  <!-- Tab Asistencia -->
   <ion-tab tab="asistencia">
-    <!-- Contenido relacionado a la asistencia -->
-    <div class="contenedor-titulos">
-      <h3>APLICACIONES_MOVILES_003D</h3>
-    </div>
+    <ion-content>
+      <!-- Contenido relacionado a la asistencia -->
+      <div class="contenedor-titulos">
+        <h3>APLICACIONES_MOVILES_003D</h3>
+      </div>
 
-    <!--Lista de clases-->
-    <ion-list>
-      <ion-item routerLink="/detalle-asistencia" routerDirection="forward">
-        <ion-label class="class-info">
-          <h2>Clase 1</h2>
-          <p>Hora: 10:00 AM</p>
-        </ion-label>
-        <ion-label class="date-info" slot="end">
-          <h3>25 - Septiembre - 2024</h3>
-          <ion-icon class="icono-personas" name="people-outline"></ion-icon> 10
-          <ion-icon class="icono-presentes" name="checkmark-circle-outline"></ion-icon> 5
-          <ion-icon class="icono-ausentes" name="close-circle-outline"></ion-icon> 5
-          <ion-icon class="icono-justificado" name="time-outline"></ion-icon> 0
-        </ion-label>
-
-      </ion-item>
-      <!-- Repite el ion-item para cada clase -->
-      <ion-item routerLink="/detalle-asistencia" routerDirection="forward">
-        <ion-label class="class-info">
-          <h2>Clase 2</h2>
-          <p>Hora: 08:31 AM</p>
-        </ion-label>
-        <ion-label class="date-info" slot="end">
-          <h3>25 - Septiembre - 2024</h3>
-          <ion-icon class="icono-personas" name="people-outline"></ion-icon> 10
-          <ion-icon class="icono-presentes" name="checkmark-circle-outline"></ion-icon> 5
-          <ion-icon class="icono-ausentes" name="close-circle-outline"></ion-icon> 5
-          <ion-icon class="icono-justificado" name="time-outline"></ion-icon> 0
-        </ion-label>
-      </ion-item>
-    </ion-list>
-
-    <!--Boton QR-->
-    <ion-button expand="full" color="primary">
-      <ion-icon slot="start" name="qr-code"></ion-icon>
-      Generar QR
-    </ion-button>
+      <!-- Lista de clases -->
+      <ion-list>
+        <ion-item routerLink="/detalle-asistencia" routerDirection="forward">
+          <ion-label class="class-info">
+            <h2>Clase 1</h2>
+            <p>Hora: 10:00 AM</p>
+          </ion-label>
+          <ion-label class="date-info" slot="end">
+            <h3>25 - Septiembre - 2024</h3>
+            <ion-icon class="icono-personas" name="people-outline"></ion-icon> 10
+            <ion-icon class="icono-presentes" name="checkmark-circle-outline"></ion-icon> 5
+            <ion-icon class="icono-ausentes" name="close-circle-outline"></ion-icon> 5
+            <ion-icon class="icono-justificado" name="time-outline"></ion-icon> 0
+          </ion-label>
+        </ion-item>
+        <!-- Repite el ion-item para cada clase -->
+      </ion-list>
+    </ion-content>
   </ion-tab>
 
+  <!-- Tab Estudiantes -->
   <ion-tab tab="students">
-    <!-- Contenido relacionado a los estudiantes -->
-
     <ion-content>
+      <!-- Contenido relacionado a los estudiantes -->
       <ion-list class="lista-asistencia">
         <ion-item-sliding *ngFor="let item of items; let index">
           <ion-item>
@@ -73,11 +54,12 @@
           </ion-item>
         </ion-item-sliding>
       </ion-list>
+
       <ion-infinite-scroll (ionInfinite)="loadData($event)">
         <ion-infinite-scroll-content>Cargando...</ion-infinite-scroll-content>
       </ion-infinite-scroll>
 
-      <!--Boton para agregar estudiante-->
+      <!-- Botón para agregar estudiante -->
       <ion-fab vertical="bottom" horizontal="end" slot="fixed">
         <ion-fab-button (click)="addStudent()" routerLink="/add-alum" routerDirection="forward">
           <ion-icon name="add"></ion-icon>
@@ -86,7 +68,7 @@
     </ion-content>
   </ion-tab>
 
-  <!--Tab(botones)-->
+  <!-- Tab-bar de navegación -->
   <ion-tab-bar slot="bottom">
     <!-- Asistencia Tab -->
     <ion-tab-button tab="asistencia">

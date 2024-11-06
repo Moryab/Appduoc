@@ -1,0 +1,44 @@
+<app-encabezado titulo="Secciones"></app-encabezado>
+
+<!-- Envuelve todo el contenido principal dentro de ion-content -->
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>PROGRAMACION DE BASE DE DATOS</ion-card-title>
+      <ion-card-subtitle>Mabel</ion-card-subtitle>
+    </ion-card-header>
+    
+    <ion-card-content>
+      <ion-list>
+        <!-- Primer ítem -->
+        <ion-item routerLink="/asistencias">
+          <ion-thumbnail slot="start">
+            <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/thumbnail.svg" />
+          </ion-thumbnail>
+          <ion-label>
+            Seccion_01
+            <ion-card-subtitle>2024_2_CO_PGY4121_24236449_PCT</ion-card-subtitle>
+          </ion-label>
+        </ion-item>
+
+        <!-- Segundo ítem -->
+        <ion-item routerLink="/nombre-de-tu-pagina">
+          <ion-thumbnail slot="start">
+            <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/thumbnail.svg" />
+          </ion-thumbnail>
+          <ion-label>
+            Seccion_02
+            <ion-card-subtitle>2024_2_CO_PGY4121_24236449_PCT</ion-card-subtitle>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+
+<!-- Footer al final -->
+<ion-footer>
+  <ion-toolbar>
+    <ion-title class="ion-text-center"></ion-title>
+  </ion-toolbar>
+</ion-footer>

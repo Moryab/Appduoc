@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { UsuarioLog } from 'src/app/interfaces/usuario';
 import { FirebaseService } from 'src/app/services/firebase.service';
+import { UtilsService } from 'src/app/services/utils.service';
 
 @Component({
   selector: 'app-login',
@@ -22,12 +23,18 @@ export class LoginPage implements OnInit {
   ) { }
 
   firebaseSvc = inject(FirebaseService);
+  utilsSvc = inject(UtilsService);
 
   ngOnInit() {
   }
 
-  iniciar_sesion() {
+  async iniciar_sesion() {
     if (this.usr) {
+
+      //=======Loading=================
+      const loading = await this.utilsSvc.loading();
+      await loading.present();
+
       this.firebaseSvc.signIn({
         email: this.usr.email,
         password: this.usr.password,
@@ -50,7 +57,21 @@ export class LoginPage implements OnInit {
       .catch((error) => {
         console.error('Error en el inicio de sesión:', error);
         this.alerta();
-      });
+
+        // ===============USO DE TOAST=============
+        // this.utilsSvc.presentToast({
+        //   message: error.message,
+        //   duration: 2500,
+        //   color: 'primary',
+        //   position: 'middle',
+        //   icon: 'alert-circle-outline'
+        // })
+
+      })
+      .finally(() =>{
+        loading.dismiss();
+      })
+
     }
   }
 

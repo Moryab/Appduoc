@@ -2,6 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { UsuarioLog } from 'src/app/interfaces/usuario';
+import { AlmacenamientoService } from 'src/app/services/almacenamiento.service';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { UtilsService } from 'src/app/services/utils.service';
 
@@ -16,22 +17,22 @@ export class LoginPage implements OnInit {
     email: '',
     password: '',
   };
-  
+
   constructor(
     private router: Router,
-    private alertController: AlertController
-  ) { }
+    private alertController: AlertController,
+    private dba: AlmacenamientoService
+  ) {}
 
   firebaseSvc = inject(FirebaseService);
   utilsSvc = inject(UtilsService);
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   async iniciar_sesion() {
     if (this.usr) {
 
-      //=======Loading=================
+      // Mostrar el loading
       const loading = await this.utilsSvc.loading();
       await loading.present();
 
@@ -39,39 +40,34 @@ export class LoginPage implements OnInit {
         email: this.usr.email,
         password: this.usr.password,
       })
-      .then((userCredential) => {
-        console.log('Inicio de sesión exitoso:', userCredential);
-        
-        // Redirigir según el dominio del correo electrónico
-        if (this.usr.email.endsWith('@duocuc.cl')) {
-          this.router.navigate(['/curso-estud']);
-        } else if (this.usr.email.endsWith('@profesor.duoc.cl')) {
-          this.router.navigate(['/cursos']);
-        } else {
-          // Maneja el caso donde no se cumple ninguna condición
-          console.warn('Dominio no reconocido');
+        .then(async (userCredential) => {
+          console.log('Inicio de sesión exitoso:', userCredential);
+
+          // Guardar la información del usuario en localStorage
+          const usuarioData = {
+            uid: userCredential.user?.uid,
+            email: this.usr.email
+          };
+          await this.dba.guardarUsuario(usuarioData);
+
+          // Redirigir según el dominio del correo electrónico
+          if (this.usr.email.endsWith('@duocuc.cl')) {
+            this.router.navigate(['/curso-estud']);
+          } else if (this.usr.email.endsWith('@profesor.duoc.cl')) {
+            this.router.navigate(['/cursos']);
+          } else {
+            console.warn('Dominio no reconocido');
+            this.alerta();
+          }
+
+        })
+        .catch((error) => {
+          console.error('Error en el inicio de sesión:', error);
           this.alerta();
-        }
-
-      })
-      .catch((error) => {
-        console.error('Error en el inicio de sesión:', error);
-        this.alerta();
-
-        // ===============USO DE TOAST=============
-        // this.utilsSvc.presentToast({
-        //   message: error.message,
-        //   duration: 2500,
-        //   color: 'primary',
-        //   position: 'middle',
-        //   icon: 'alert-circle-outline'
-        // })
-
-      })
-      .finally(() =>{
-        loading.dismiss();
-      })
-
+        })
+        .finally(() => {
+          loading.dismiss();
+        });
     }
   }
 
@@ -84,8 +80,7 @@ export class LoginPage implements OnInit {
       buttons: [{
         text: "Aceptar",
         cssClass: 'btn-login',
-        handler: () => {
-        }
+        handler: () => {}
       }],
     });
 

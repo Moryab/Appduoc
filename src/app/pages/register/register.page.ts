@@ -4,6 +4,7 @@ import { UsuarioRegister } from 'src/app/interfaces/usuario';
 import { AlertController } from '@ionic/angular';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { UtilsService } from 'src/app/services/utils.service';
+import { AlmacenamientoService } from 'src/app/services/almacenamiento.service';
 
 @Component({
   selector: 'app-register',
@@ -18,7 +19,9 @@ export class RegisterPage implements OnInit {
     password: '',
   };
 
-  constructor(private router: Router, private alertController: AlertController) { }
+  constructor(private router: Router, 
+    private alertController: AlertController,
+  private dba:AlmacenamientoService) { }
 
   firebaseSvc = inject(FirebaseService);
   utilsSvc = inject(UtilsService);
@@ -41,9 +44,13 @@ export class RegisterPage implements OnInit {
       .then((userCredential) => {
         // Muestra el objeto similar al que se obtiene al iniciar sesión
         console.log('Usuario registrado exitosamente:', userCredential);
-  
+
+        // Guarda el usuario en el almacenamiento local
+        this.dba.guardar('usuario', this.usr);
+
         this.alertaRegistroExitoso();
         this.firebaseSvc.updateUser(this.usr.nombre);
+
         // Puedes redirigir al usuario a otra página aquí si lo deseas
         this.router.navigate(['/login']);
       })
@@ -56,6 +63,35 @@ export class RegisterPage implements OnInit {
       })
     }
   }
+
+
+  // async setUserInfo(uid: string) {
+  //   if (this.usr) {
+
+  //     //=======Loading=================
+  //     const loading = await this.utilsSvc.loading();
+  //     await loading.present();
+
+  //     let path = 'users/${uid}';
+  //     delete this.usr.password;
+
+  //     this.firebaseSvc.setDocument(path, this.usr).then(async res => {
+
+  //       this.utilsSvc.saveInLocalStorage('user', this.usr)
+
+
+  //       })
+  //       .catch((error) => {
+  //         console.error('Error al registrar usuario:', error);          
+  //         this.alertaRegistroFallido(error.message);
+  //       })
+  //       .finally(() => {
+  //         loading.dismiss();
+  //       })
+
+  //   }
+  // }
+
   
 
   // Alerta para registro exitoso

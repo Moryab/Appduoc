@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { UsuarioRegister } from 'src/app/interfaces/usuario';
 import { AlertController } from '@ionic/angular';
 import { FirebaseService } from 'src/app/services/firebase.service';
+import { UtilsService } from 'src/app/services/utils.service';
 
 @Component({
   selector: 'app-register',
@@ -20,12 +21,18 @@ export class RegisterPage implements OnInit {
   constructor(private router: Router, private alertController: AlertController) { }
 
   firebaseSvc = inject(FirebaseService);
+  utilsSvc = inject(UtilsService);
+
 
   ngOnInit() {
   }
 
-  registrar() {
+  async registrar() {
     if (this.usr) {
+
+      const loading = await this.utilsSvc.loading();
+      await loading.present();
+
       this.firebaseSvc.signUp({
         nombre: this.usr.nombre,
         email: this.usr.email,
@@ -43,7 +50,10 @@ export class RegisterPage implements OnInit {
       .catch((error) => {
         console.error('Error al registrar usuario:', error);
         this.alertaRegistroFallido(error.message);
-      });
+      })
+      .finally(() =>{
+        loading.dismiss();
+      })
     }
   }
   

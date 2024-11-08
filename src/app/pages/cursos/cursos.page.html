@@ -7,20 +7,13 @@
   <ion-searchbar class="search-bar"></ion-searchbar>
 
   <!--Tarjetas de cursos-->
-  <ion-card routerLink="/secciones" routerDirection="forward" class="custom-card">
-    <ion-img alt="Aplicaciones moviles" src="assets/icon/img/appmovil.jpg"></ion-img>
+  <ion-card *ngFor="let curso of cursos" routerLink="/asistencias" routerDirection="forward" class="custom-card">
+    <ion-img alt="{{ curso.nombre }}" src="assets/icon/img/appmovil.jpg"></ion-img>
     <ion-card-header>
-      <ion-card-title>PROGRAMACION DE BASE DE DATOS</ion-card-title>
+      <ion-card-title>{{ curso.nombre }}</ion-card-title>
+      <ion-card-subtitle>{{ curso.sigla }} - {{ curso.seccion }}</ion-card-subtitle>
     </ion-card-header>
-    <ion-card-content>Mabel</ion-card-content>
-  </ion-card>
-
-  <ion-card routerLink="/asistencias" routerDirection="forward" class="custom-card">
-    <ion-img alt="Base de datos" src="assets/icon/img/bdatos.png"></ion-img>
-    <ion-card-header>
-      <ion-card-title> CONSULTA DE BASES DE DATOS</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>Mabel</ion-card-content>
+    <ion-card-content>{{ curso.profesor }}</ion-card-content>
   </ion-card>
 </ion-content>
 

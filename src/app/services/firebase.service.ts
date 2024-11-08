@@ -3,7 +3,9 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile } from '@firebase/auth';
 import { UsuarioLog, UsuarioRegister } from '../interfaces/usuario';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { getFirestore, setDoc, doc } from '@angular/fire/firestore';
+import { getFirestore, setDoc, doc, collection, getDocs } from '@angular/fire/firestore';
+import { Router } from '@angular/router';
+
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +13,8 @@ import { getFirestore, setDoc, doc } from '@angular/fire/firestore';
 export class FirebaseService {
   auth = inject(AngularFireAuth);
   firestore = inject(AngularFirestore);
+  router = inject(Router); // Inyecta el servicio de Router
+
 
   //=================AUTENTIFICACION===============
 
@@ -66,4 +70,35 @@ export class FirebaseService {
       throw new Error('Correo no válido para registro');
     }
   }
+
+  // Método para agregar un curso a Firestore
+  async addCourse(courseData: { seccion: string; sigla: string; nombre: string; profesor: string; }) {
+    try {
+      const courseId = this.firestore.createId();
+
+      // Guardar la información del curso en Firestore
+      await setDoc(doc(getFirestore(), 'cursos', courseId), {
+        seccion: courseData.seccion,
+        sigla: courseData.sigla,
+        nombre: courseData.nombre,
+        profesor: courseData.profesor,
+        fechaCreacion: new Date().toISOString()
+      });
+
+      this.router.navigate(['/cursos']);
+      console.log("Curso guardado con éxito.");
+    } catch (error) {
+      console.error("Error al guardar el curso: ", error);
+      throw error;
+    }
+  }
+
+  // LLamar cursos
+  async getCourses() {
+    const db = getFirestore(); // Obtiene la instancia de Firestore
+    const cursosRef = collection(db, 'cursos'); // Referencia a la colección 'cursos'
+    const querySnapshot = await getDocs(cursosRef); // Obtiene los documentos de la colección
+    return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })); // Mapea los datos
+  }
+
 }

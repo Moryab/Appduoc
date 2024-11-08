@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { FirebaseService } from 'src/app/services/firebase.service';
 
 @Component({
   selector: 'app-cursos',
@@ -8,13 +8,20 @@ import { Router } from '@angular/router';
 })
 export class CursosPage implements OnInit {
 
-  constructor(private router:Router) { }
+  cursos: any[] = [];  // Variable para almacenar los cursos
 
-  asistencia() {
-    this.router.navigate(["/asistencias"]);
-  }
+  constructor(private firebaseService: FirebaseService) {}
 
   ngOnInit() {
+    this.loadCourses();
+  }
+
+  async loadCourses() {
+    try {
+      this.cursos = await this.firebaseService.getCourses();
+    } catch (error) {
+      console.error("Error al cargar los cursos: ", error);
+    }
   }
 
 }

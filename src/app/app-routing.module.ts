@@ -50,10 +50,8 @@ const routes: Routes = [
   {
     path: 'ubicacion',
     loadChildren: () => import('./pages/ubicacion/ubicacion.module').then( m => m.UbicacionPageModule)
-  },  {
-    path: 'secciones',
-    loadChildren: () => import('./pages/secciones/secciones.module').then( m => m.SeccionesPageModule)
   },
+
 
 
 

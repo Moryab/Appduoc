@@ -1,39 +1,29 @@
 <app-encabezado titulo="Agregar curso"></app-encabezado>
 <ion-content>
-  <form>
+  <form (submit)="agregarCurso()">
     <ion-item>
-      <ion-label position="stacked">Imagen del Curso</ion-label>
-      <div class="image-upload">
-        <input type="file" />
-        <div class="upload-icon">
-          <ion-icon name="cloud-upload-outline"></ion-icon>
-          <p>Subir Imagen</p>
-        </div>
-      </div>
+      <ion-label position="stacked">Seccion</ion-label>
+      <ion-input [(ngModel)]="seccion" name="seccion" placeholder="Ej: Seccion_001D"></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label position="stacked">Sigla de la Asignatura</ion-label>
-      <ion-input placeholder="Ej: PGY4121"></ion-input>
+      <ion-input [(ngModel)]="sigla" name="sigla" placeholder="Ej: PGY4121"></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label position="stacked">Nombre de la Asignatura</ion-label>
-      <ion-input placeholder="Ej: Aplicaciones Móviles"></ion-input>
+      <ion-input [(ngModel)]="nombre" name="nombre" placeholder="Ej: Aplicaciones Móviles"></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label position="stacked">Nombre del Profesor</ion-label>
-      <ion-input placeholder="Ej: Alejandro Sepulveda"></ion-input>
+      <ion-input [(ngModel)]="profesor" name="profesor" placeholder="Ej: Alejandro Sepulveda"></ion-input>
     </ion-item>
-    <ion-button class="btn-login" type="submit" expand="block" fill="solid" routerLink="/cursos" routerDirection="forward">
-      <ion-icon name="add-circle-outline"></ion-icon
-        >Agregar Curso</ion-button>
+    
+    <ion-button type="submit" expand="block" fill="solid">
+      <ion-icon name="add-circle-outline"></ion-icon>
+      Agregar Curso
+    </ion-button>
   </form>
 </ion-content>
-
-<ion-footer>
-  <ion-toolbar>
-    <ion-title class="ion-text-center"></ion-title>
-  </ion-toolbar>
-</ion-footer>

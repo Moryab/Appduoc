@@ -13,6 +13,9 @@ import { IonicStorageModule } from '@ionic/storage-angular';
 //FIREBASE
 import { AngularFireModule } from '@angular/fire/compat';
 import { environment } from '../environments/environment.prod';
+//QR
+import { QRCodeModule } from 'angularx-qrcode';  // Importa el módulo
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -21,6 +24,7 @@ import { environment } from '../environments/environment.prod';
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
+    QRCodeModule,
     IonicStorageModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebaseConfig)
   ],

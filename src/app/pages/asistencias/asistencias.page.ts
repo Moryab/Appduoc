@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController, InfiniteScrollCustomEvent } from '@ionic/angular';
+import { QRCodeModule } from 'angularx-qrcode';
 
 @Component({
   selector: 'app-asistencias',
@@ -8,11 +9,25 @@ import { AlertController, InfiniteScrollCustomEvent } from '@ionic/angular';
   styleUrls: ['./asistencias.page.scss'],
 })
 export class AsistenciasPage implements OnInit {
-  items: string[] = [];
 
-  constructor(private router:Router,private alertController: AlertController) { }
+  items: string[] = [];
+  qrData: string = ''; // Variable para almacenar el QR
+
+  constructor(
+    private router: Router,
+    private alertController: AlertController,
+    private route: ActivatedRoute // Inyectamos ActivatedRoute para acceder a los parámetros
+  ) { }
 
   ngOnInit() {
+    // Capturamos los parámetros 'courseId' y 'sectionId' de la URL
+    this.route.params.subscribe(params => {
+      const courseId = params['courseId'];
+      const sectionId = params['sectionId'];
+      this.qrData = `https://your-app-url.com/attendance?course=${courseId}&section=${sectionId}`;
+    });
+
+    // Simulamos la carga de estudiantes
     for (let i = 1; i <= 30; i++) {
       this.items.push(`Estudiante ${i}`);
     }
@@ -56,17 +71,16 @@ export class AsistenciasPage implements OnInit {
         {
           text: 'Editar',
           handler: () => {
-            // Aquí puedes redirigir a la página de edición o realizar la lógica de edición
             console.log('Editar estudiante:', student);
             this.router.navigate(['/add-alum']); // Ejemplo de redirección
           },
         },
       ],
     });
-  
+
     await alert.present();
   }
-  
+
   async deleteStudent(student: string) {
     const alert = await this.alertController.create({
       header: 'Confirmación',
@@ -89,8 +103,7 @@ export class AsistenciasPage implements OnInit {
         },
       ],
     });
-  
+
     await alert.present();
   }
-  
 }

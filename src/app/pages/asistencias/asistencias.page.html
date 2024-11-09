@@ -68,13 +68,16 @@
     </ion-content>
   </ion-tab>
 
-  <ion-tab tab="qr">
-    <ion-content>
-      <div class="qr-container" style="text-align: center; margin-top: 200px;">
-        <img src="assets/icon/img/qr-code.png" alt="Código QR" width="300" height="300" />
-      </div>
-    </ion-content>
-  </ion-tab>
+  <!-- Tab de QR -->
+  <ion-tabs>
+    <ion-tab tab="qr">
+      <ion-content>
+        <div class="qr-container" style="text-align: center;">
+          <!-- Genera el QR con el valor de la sección (qrData) -->
+          <ngx-qrcode [qrc-value]="qrData" [size]="100"></ngx-qrcode>
+        </div>
+      </ion-content>
+    </ion-tab>
 
   <!-- Tab-bar de navegación -->
   <ion-tab-bar slot="bottom">

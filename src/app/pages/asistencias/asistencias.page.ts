@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController, InfiniteScrollCustomEvent } from '@ionic/angular';
-import { QRCodeModule } from 'angularx-qrcode';
+import { FirebaseService } from '../../services/firebase.service';
 
 @Component({
   selector: 'app-asistencias',
@@ -12,26 +12,39 @@ export class AsistenciasPage implements OnInit {
 
   items: string[] = [];
   qrData: string = ''; // Variable para almacenar el QR
+  cursos: any[] = [];  // Declarar la propiedad cursos como un arreglo vacío
+
 
   constructor(
     private router: Router,
     private alertController: AlertController,
-    private route: ActivatedRoute // Inyectamos ActivatedRoute para acceder a los parámetros
+    private route: ActivatedRoute,
+    private firebaseService: FirebaseService, // Inyectamos ActivatedRoute para acceder a los parámetros
   ) { }
 
   ngOnInit() {
-    // Capturamos los parámetros 'courseId' y 'sectionId' de la URL
-    this.route.params.subscribe(params => {
-      const courseId = params['courseId'];
-      const sectionId = params['sectionId'];
-      this.qrData = `https://your-app-url.com/attendance?course=${courseId}&section=${sectionId}`;
-    });
+    this.loadCourses(); // Cargar los cursos al inicializar la página
 
-    // Simulamos la carga de estudiantes
-    for (let i = 1; i <= 30; i++) {
-      this.items.push(`Estudiante ${i}`);
+  }
+
+  // Asumiendo que 'cursos' es un array de los cursos obtenidos desde Firebase
+  async loadCourses() {
+    this.cursos = await this.firebaseService.getCourses();
+    console.log('Cursos desde Firebase:', this.cursos);
+    if (this.cursos.length > 0) {
+      // Puedes iniciar qrData con la sección del primer curso
+      this.qrData = this.cursos[0].seccion;
     }
   }
+
+  // Método para cambiar qrData cuando se selecciona un curso
+  onSelectCourse(course: any) {
+    this.qrData = course.seccion;
+    console.log('QR Data para el curso seleccionado:', this.qrData); // Verifica el valor de qrData
+  }
+
+
+
 
   loadData(event: InfiniteScrollCustomEvent) {
     setTimeout(() => {

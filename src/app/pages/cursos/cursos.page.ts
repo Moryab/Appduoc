@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FirebaseService } from 'src/app/services/firebase.service';
+import { Observable } from 'rxjs';  // Importa Observable
 
 @Component({
   selector: 'app-cursos',
@@ -8,20 +9,15 @@ import { FirebaseService } from 'src/app/services/firebase.service';
 })
 export class CursosPage implements OnInit {
 
-  cursos: any[] = [];  // Variable para almacenar los cursos
+  cursos$: Observable<any[]>;  // Cambié a Observable para usar async pipe en el template
 
   constructor(private firebaseService: FirebaseService) {}
 
   ngOnInit() {
-    this.loadCourses();
+    this.loadCourses();  // Llamada a la carga de cursos en el ngOnInit
   }
 
-  async loadCourses() {
-    try {
-      this.cursos = await this.firebaseService.getCourses();
-    } catch (error) {
-      console.error("Error al cargar los cursos: ", error);
-    }
+  loadCourses() {
+    this.cursos$ = this.firebaseService.getCourses();  // Usamos el método del servicio que devuelve un Observable
   }
-
 }

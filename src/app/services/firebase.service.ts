@@ -1,11 +1,10 @@
 import { inject, Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile } from '@firebase/auth';
-import { UsuarioLog, UsuarioRegister } from '../interfaces/usuario';
+import { Curso, UsuarioLog, UsuarioRegister } from '../interfaces/usuario';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { getFirestore, setDoc, doc, collection, getDocs } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
-
+import { map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +13,6 @@ export class FirebaseService {
   auth = inject(AngularFireAuth);
   firestore = inject(AngularFirestore);
   router = inject(Router); // Inyecta el servicio de Router
-
 
   //=================AUTENTIFICACION===============
 
@@ -40,7 +38,7 @@ export class FirebaseService {
         fechaRegistro: new Date().toISOString(),
       };
 
-      await setDoc(doc(getFirestore(), 'usuarios', userCredential.user.uid), userData);
+      await this.firestore.collection('usuarios').doc(userCredential.user.uid).set(userData);
 
       // Actualizar el perfil del usuario con el nombre (opcional)
       await updateProfile(getAuth().currentUser!, {
@@ -48,7 +46,6 @@ export class FirebaseService {
       });
 
       return userCredential; // Devuelve la respuesta de Firebase Auth si es necesario
-
     } catch (error) {
       console.error("Error en el registro de usuario: ", error);
       throw error;
@@ -72,20 +69,25 @@ export class FirebaseService {
   }
 
   // Método para agregar un curso a Firestore
-  async addCourse(courseData: { seccion: string; sigla: string; nombre: string; profesor: string; }) {
+  async addCourse(courseData: { seccion: string; sigla: string; nombre: string; nombreProfesor: string; }) {
     try {
-      const courseId = this.firestore.createId();
+      const courseId = this.firestore.createId(); // Obtener un ID único para el curso
+      const user = getAuth().currentUser;
 
-      // Guardar la información del curso en Firestore
-      await setDoc(doc(getFirestore(), 'cursos', courseId), {
+      if (!user) {
+        throw new Error("No hay usuario logueado.");
+      }
+
+      // Guardar la información del curso en Firestore usando AngularFirestore
+      await this.firestore.collection('cursos').doc(courseId).set({
         seccion: courseData.seccion,
         sigla: courseData.sigla,
         nombre: courseData.nombre,
-        profesor: courseData.profesor,
+        correo: user.email, // Correo del usuario logueado como identificador del profesor
+        nombreProfesor: courseData.nombreProfesor, // Nombre visible del profesor
         fechaCreacion: new Date().toISOString()
       });
 
-      this.router.navigate(['/cursos']);
       console.log("Curso guardado con éxito.");
     } catch (error) {
       console.error("Error al guardar el curso: ", error);
@@ -93,12 +95,24 @@ export class FirebaseService {
     }
   }
 
-  // LLamar cursos
-  async getCourses() {
-    const db = getFirestore(); // Obtiene la instancia de Firestore
-    const cursosRef = collection(db, 'cursos'); // Referencia a la colección 'cursos'
-    const querySnapshot = await getDocs(cursosRef); // Obtiene los documentos de la colección
-    return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })); // Mapea los datos
-  }
+  // Método para obtener los cursos del profesor logueado en tiempo real
+  getCourses(): Observable<Curso[]> { // Cambié la firma para retornar un Observable
+    const user = getAuth().currentUser;
 
+    if (!user) {
+      throw new Error("No hay usuario logueado.");
+    }
+
+    // Crear la referencia a la colección y la consulta
+    const cursosRef = this.firestore.collection<Curso>('cursos', ref => ref.where("correo", "==", user.email));
+
+    // Usamos onSnapshot para obtener los cursos en tiempo real
+    return cursosRef.snapshotChanges().pipe(
+      map(actions => actions.map(a => {
+        const data = a.payload.doc.data() as Curso;
+        const id = a.payload.doc.id;
+        return { id, ...data };
+      }))
+    );
+  }
 }

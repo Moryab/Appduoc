@@ -4,7 +4,6 @@
   <!-- Tab Asistencia -->
   <ion-tab tab="asistencia">
     <ion-content>
-      <!-- Contenido relacionado a la asistencia -->
       <div class="contenedor-titulos">
         <h3>APLICACIONES_MOVILES_003D</h3>
       </div>
@@ -24,7 +23,6 @@
             <ion-icon class="icono-justificado" name="time-outline"></ion-icon> 0
           </ion-label>
         </ion-item>
-        <!-- Repite el ion-item para cada clase -->
       </ion-list>
     </ion-content>
   </ion-tab>
@@ -32,7 +30,6 @@
   <!-- Tab Estudiantes -->
   <ion-tab tab="students">
     <ion-content>
-      <!-- Contenido relacionado a los estudiantes -->
       <ion-list class="lista-asistencia">
         <ion-item-sliding *ngFor="let item of items; let index">
           <ion-item>
@@ -59,7 +56,6 @@
         <ion-infinite-scroll-content>Cargando...</ion-infinite-scroll-content>
       </ion-infinite-scroll>
 
-      <!-- Botón para agregar estudiante -->
       <ion-fab vertical="bottom" horizontal="end" slot="fixed">
         <ion-fab-button (click)="addStudent()" routerLink="/add-alum" routerDirection="forward">
           <ion-icon name="add"></ion-icon>
@@ -68,33 +64,30 @@
     </ion-content>
   </ion-tab>
 
-  <!-- Tab de QR -->
-  <ion-tabs>
-    <ion-tab tab="qr">
-      <ion-content>
-        <div class="qr-container" style="text-align: center;">
-          <!-- Genera el QR con el valor de la sección (qrData) -->
-          <ngx-qrcode [qrc-value]="qrData" [size]="100"></ngx-qrcode>
-        </div>
-      </ion-content>
-    </ion-tab>
+  <!-- Tab QR -->
+  <ion-tab tab="qr">
+    <ion-content>
+      <div class="qr-container" style="text-align: center;">
+        <ngx-qrcode [qrc-value]="qrData" [size]="100"></ngx-qrcode>
+      </div>
+    </ion-content>
+  </ion-tab>
 
   <!-- Tab-bar de navegación -->
   <ion-tab-bar slot="bottom">
-    <!-- Asistencia Tab -->
     <ion-tab-button tab="asistencia">
       <ion-icon name="clipboard-outline"></ion-icon>
-      Asistencia
+      <ion-label>Asistencia</ion-label>
     </ion-tab-button>
-        <!--Qr tab-->
-        <ion-tab-button tab="qr">
-          <ion-icon name="qr-code-outline"></ion-icon>
-          Generar QR
-        </ion-tab-button>
-    <!-- Estudiantes Tab -->
+    
+    <ion-tab-button tab="qr">
+      <ion-icon name="qr-code-outline"></ion-icon>
+      <ion-label>Generar QR</ion-label>
+    </ion-tab-button>
+
     <ion-tab-button tab="students">
       <ion-icon name="school-outline"></ion-icon>
-      Estudiantes
+      <ion-label>Estudiantes</ion-label>
     </ion-tab-button>
   </ion-tab-bar>
 </ion-tabs>

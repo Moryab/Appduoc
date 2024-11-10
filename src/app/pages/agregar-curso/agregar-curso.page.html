@@ -1,27 +1,38 @@
 <app-encabezado titulo="Agregar curso"></app-encabezado>
+
 <ion-content>
   <form (submit)="agregarCurso()">
+    <!-- Sección -->
     <ion-item>
       <ion-label position="stacked">Seccion</ion-label>
-      <ion-input [(ngModel)]="seccion" name="seccion" placeholder="Ej: Seccion_001D"></ion-input>
+      <ion-input [(ngModel)]="seccion" name="seccion" placeholder="Ej: Seccion_001D" required></ion-input>
     </ion-item>
 
+    <!-- Sigla de la asignatura -->
     <ion-item>
       <ion-label position="stacked">Sigla de la Asignatura</ion-label>
-      <ion-input [(ngModel)]="sigla" name="sigla" placeholder="Ej: PGY4121"></ion-input>
+      <ion-input [(ngModel)]="sigla" name="sigla" placeholder="Ej: PGY4121" required></ion-input>
     </ion-item>
 
+    <!-- Nombre de la asignatura -->
     <ion-item>
       <ion-label position="stacked">Nombre de la Asignatura</ion-label>
-      <ion-input [(ngModel)]="nombre" name="nombre" placeholder="Ej: Aplicaciones Móviles"></ion-input>
+      <ion-input [(ngModel)]="nombre" name="nombre" placeholder="Ej: Aplicaciones Móviles" required></ion-input>
     </ion-item>
 
+    <!-- Nombre del profesor (nombre visible) -->
     <ion-item>
       <ion-label position="stacked">Nombre del Profesor</ion-label>
-      <ion-input [(ngModel)]="profesor" name="profesor" placeholder="Ej: Alejandro Sepulveda"></ion-input>
+      <ion-input [(ngModel)]="nombreProfesor" name="nombreProfesor" placeholder="Ej: Alejandro Sepulveda" required></ion-input>
     </ion-item>
-    
-    <ion-button type="submit" expand="block" fill="solid">
+
+    <!-- Mensaje de error -->
+    <div *ngIf="errorMessage" style="color: red; padding: 10px;">
+      <p>{{ errorMessage }}</p>
+    </div>
+
+    <!-- Botón de enviar -->
+    <ion-button type="submit" expand="block" fill="solid" [disabled]="!seccion || !sigla || !nombre || !nombreProfesor">
       <ion-icon name="add-circle-outline"></ion-icon>
       Agregar Curso
     </ion-button>

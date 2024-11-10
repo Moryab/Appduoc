@@ -9,7 +9,8 @@ import { AsistenciasPageRoutingModule } from './asistencias-routing.module';
 import { AsistenciasPage } from './asistencias.page';
 import { ComponentsModule } from "../../components/components.module";
 
-import { QRCodeModule } from 'angularx-qrcode';
+
+
 
 
 @NgModule({
@@ -19,9 +20,7 @@ import { QRCodeModule } from 'angularx-qrcode';
     IonicModule,
     AsistenciasPageRoutingModule,
     ComponentsModule,
-    QRCodeModule
 ],
-schemas: [CUSTOM_ELEMENTS_SCHEMA],  // Añade esto
   declarations: [AsistenciasPage]
 })
 export class AsistenciasPageModule {}

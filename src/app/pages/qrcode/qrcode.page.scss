@@ -1,0 +1,19 @@
+/* Estilos para centrar el contenido y el texto debajo del QR */
+.center-content {
+    display: flex;
+    flex-direction: column; /* Apila los elementos verticalmente */
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .qr-container {
+    text-align: center;
+  }
+  
+  .qr-text {
+    margin-top: 16px; /* Espacio entre el QR y el texto */
+    font-size: 16px;
+    color: #333; /* Cambia el color según prefieras */
+  }
+  

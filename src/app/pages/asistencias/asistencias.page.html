@@ -7,9 +7,18 @@
       <div class="contenedor-titulos">
         <h3>APLICACIONES_MOVILES_003D</h3>
       </div>
-
+      <ion-button expand="full" routerLink="/qrcode">Generar QR<ion-icon name="qr-code-outline"></ion-icon></ion-button>
       <!-- Lista de clases -->
       <ion-list>
+        <ion-item *ngFor="let asistencia of asistencias">
+          <ion-label>
+            <h2>{{ asistencia.curso }}</h2>
+            <p>Sección: {{ asistencia.seccion }}</p>
+            <p>Profesor: {{ asistencia.profesor }}</p>
+            <p>Fecha: {{ asistencia.fecha }}</p>
+            <p>Hora: {{ asistencia.hora }}</p>
+          </ion-label>
+        </ion-item>
         <ion-item routerLink="/detalle-asistencia" routerDirection="forward">
           <ion-label class="class-info">
             <h2>Clase 1</h2>
@@ -24,6 +33,7 @@
           </ion-label>
         </ion-item>
       </ion-list>
+
     </ion-content>
   </ion-tab>
 
@@ -64,15 +74,6 @@
     </ion-content>
   </ion-tab>
 
-  <!-- Tab QR -->
-  <ion-tab tab="qr">
-    <ion-content>
-      <div class="qr-container" style="text-align: center;">
-        <ngx-qrcode [qrc-value]="qrData" [size]="100"></ngx-qrcode>
-      </div>
-    </ion-content>
-  </ion-tab>
-
   <!-- Tab-bar de navegación -->
   <ion-tab-bar slot="bottom">
     <ion-tab-button tab="asistencia">
@@ -80,10 +81,6 @@
       <ion-label>Asistencia</ion-label>
     </ion-tab-button>
     
-    <ion-tab-button tab="qr">
-      <ion-icon name="qr-code-outline"></ion-icon>
-      <ion-label>Generar QR</ion-label>
-    </ion-tab-button>
 
     <ion-tab-button tab="students">
       <ion-icon name="school-outline"></ion-icon>

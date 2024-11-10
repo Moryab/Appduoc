@@ -1,0 +1,19 @@
+<app-encabezado titulo="Generar QR"></app-encabezado>
+
+<ion-content>
+  <div class="qr-container center-content">
+    <qr-code [value]="qrText" size="300" errorCorrectionLevel="M"></qr-code>
+    <!-- Texto centrado debajo del QR -->
+    <div class="qr-text">{{qrText}}</div>
+  </div>
+
+  <ion-button expand="full" (click)="guardarAsistencia()">Guardar Asistencia</ion-button>
+</ion-content>
+
+
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-title class="ion-text-center"></ion-title>
+  </ion-toolbar>
+</ion-footer>

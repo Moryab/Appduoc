@@ -115,4 +115,11 @@ export class FirebaseService {
       }))
     );
   }
+
+  // Método para guardar la asistencia
+  guardarAsistencia(asistencia: any) {
+    return this.firestore.collection('asistencias').add(asistencia);
+  }
+
+  
 }

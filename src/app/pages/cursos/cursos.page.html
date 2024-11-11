@@ -7,7 +7,7 @@
   <ion-searchbar class="search-bar"></ion-searchbar>
 
   <!--Tarjetas de cursos-->
-  <ion-card *ngFor="let curso of cursos$ | async" routerLink="/asistencias" routerDirection="forward" class="custom-card">
+  <ion-card *ngFor="let curso of cursos$ | async" (click)="verCursoDetalles(curso)" routerDirection="forward" class="custom-card">
     <ion-img alt="{{ curso.nombre }}" src="assets/icon/img/appmovil.jpg"></ion-img>
     <ion-card-header>
       <ion-card-title>{{ curso.nombre }}</ion-card-title>

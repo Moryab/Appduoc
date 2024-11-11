@@ -5,9 +5,9 @@
   <ion-tab tab="asistencia">
     <ion-content>
       <div class="contenedor-titulos">
-        <h3>APLICACIONES_MOVILES_003D</h3>
+        <h3>{{ curso?.nombre }}  {{ curso?.seccion }}</h3>  <!-- Nombre del curso y sección unidos -->
       </div>
-      <ion-button expand="full" routerLink="/qrcode">Generar QR<ion-icon name="qr-code-outline"></ion-icon></ion-button>
+      <ion-button expand="full" (click)="goToQRCode()">Generar QR<ion-icon name="qr-code-outline"></ion-icon></ion-button>
       <!-- Lista de clases -->
       <ion-list>
         <ion-item *ngFor="let asistencia of asistencias">

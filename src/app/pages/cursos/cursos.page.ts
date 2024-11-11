@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FirebaseService } from 'src/app/services/firebase.service';
-import { Observable } from 'rxjs';  // Importa Observable
+import { Observable } from 'rxjs';
+import { Router, NavigationExtras } from '@angular/router';
 
 @Component({
   selector: 'app-cursos',
@@ -9,15 +10,29 @@ import { Observable } from 'rxjs';  // Importa Observable
 })
 export class CursosPage implements OnInit {
 
-  cursos$: Observable<any[]>;  // Cambié a Observable para usar async pipe en el template
+  cursos$: Observable<any[]>;
 
-  constructor(private firebaseService: FirebaseService) {}
+  constructor(private firebaseService: FirebaseService, private router: Router) {}
 
   ngOnInit() {
-    this.loadCourses();  // Llamada a la carga de cursos en el ngOnInit
+    this.loadCourses();
   }
 
   loadCourses() {
-    this.cursos$ = this.firebaseService.getCourses();  // Usamos el método del servicio que devuelve un Observable
+    this.cursos$ = this.firebaseService.getCourses();
+  }
+
+  verCursoDetalles(curso: any) {
+    const navigationExtras: NavigationExtras = {
+      state: {
+        nombre: curso.nombre,
+        seccion: curso.seccion,
+        nombreProfesor: curso.nombreProfesor,
+        sigla: curso.sigla,
+        correo: curso.correo,
+        fechaCreacion: curso.fechaCreacion
+      }
+    };
+    this.router.navigate(['/asistencias'], navigationExtras);
   }
 }

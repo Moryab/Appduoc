@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
 import { AlertController, InfiniteScrollCustomEvent } from '@ionic/angular';
 import { FirebaseService } from '../../services/firebase.service';
 import { Curso } from 'src/app/interfaces/usuario';  // Importa la interfaz Curso
@@ -13,7 +13,7 @@ export class AsistenciasPage implements OnInit {
 
   asistencias: any[] = [];  // Variable para almacenar las asistencias
   items: string[] = [];
-  cursos: Curso[] = [];  // Aquí especificas que 'cursos' es un arreglo de objetos de tipo Curso
+  curso: Curso;  // Curso específico que seleccionaste, usando la interfaz Curso
 
   constructor(
     private router: Router,
@@ -24,6 +24,34 @@ export class AsistenciasPage implements OnInit {
 
   ngOnInit() {
     this.loadAsistencias();
+  
+    // Obtener el estado de navegación con detalles del curso
+    const navigationState = this.router.getCurrentNavigation()?.extras.state as Curso;
+  
+    console.log('Datos recibidos:', navigationState);
+  
+    if (navigationState) {
+      this.curso = {
+        nombre: navigationState.nombre,
+        seccion: navigationState.seccion,
+        nombreProfesor: navigationState.nombreProfesor,
+        sigla: navigationState.sigla,
+        correo: navigationState.correo,
+        fechaCreacion: navigationState.fechaCreacion
+      };
+    }
+  }
+
+  // Método para navegar a la página QRCode con los detalles del curso
+  goToQRCode() {
+    const navigationExtras: NavigationExtras = {
+      state: {
+        nombre: this.curso.nombre,
+        seccion: this.curso.seccion,
+        nombreProfesor: this.curso.nombreProfesor
+      }
+    };
+    this.router.navigate(['/qrcode'], navigationExtras);
   }
 
   //guardar asistencias
@@ -33,8 +61,6 @@ export class AsistenciasPage implements OnInit {
       this.asistencias = data;
     });
   }
-
-
 
   // Método para cargar más estudiantes (si tienes un scroll infinito)
   loadData(event: InfiniteScrollCustomEvent) {

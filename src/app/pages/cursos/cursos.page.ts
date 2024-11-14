@@ -10,7 +10,9 @@ import { Router, NavigationExtras } from '@angular/router';
 })
 export class CursosPage implements OnInit {
 
+  loaded=false;
   cursos$: Observable<any[]>;
+  cursos: any[] = []; // Nueva propiedad para almacenar los cursos una vez cargados
 
   constructor(private firebaseService: FirebaseService, private router: Router) {}
 
@@ -20,7 +22,12 @@ export class CursosPage implements OnInit {
 
   loadCourses() {
     this.cursos$ = this.firebaseService.getCourses();
+    this.cursos$.subscribe(cursos => {
+      this.cursos = cursos; // Asigna los datos a cursos[]
+      this.loaded = true; // Cambia loaded a true solo cuando los datos están cargados
+    });
   }
+  
 
   verCursoDetalles(curso: any) {
     const navigationExtras: NavigationExtras = {

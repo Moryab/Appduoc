@@ -6,15 +6,37 @@
   <!--Buscar-->
   <ion-searchbar class="search-bar"></ion-searchbar>
 
-  <!--Tarjetas de cursos-->
-  <ion-card *ngFor="let curso of cursos$ | async" (click)="verCursoDetalles(curso)" routerDirection="forward" class="custom-card">
-    <ion-img alt="{{ curso.nombre }}" src="assets/icon/img/appmovil.jpg"></ion-img>
-    <ion-card-header>
-      <ion-card-title>{{ curso.nombre }}</ion-card-title>
-      <ion-card-subtitle>{{ curso.sigla }} - {{ curso.seccion }}</ion-card-subtitle>
-    </ion-card-header>
-    <ion-card-content>{{ curso.nombreProfesor }}</ion-card-content>
-  </ion-card>
+  <ion-list *ngIf="!loaded">
+    <ion-card *ngFor="let fake of [1,1,1,1]">
+      <ion-skeleton-text animated style="width: 100%;height: 100%;" class="ion-padding"></ion-skeleton-text>
+      <ion-card-header>
+        <ion-card-title color="secondary" class="ion-text-capitalize">
+          <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+        </ion-card-title>
+        <ion-card-subtitle>
+          <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+        </ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-skeleton-text animated style="width: 100%;height: 20%;"></ion-skeleton-text>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+
+  <ion-list *ngIf="loaded">
+    <!-- Tarjetas de cursos -->
+    <ion-card *ngFor="let curso of cursos" (click)="verCursoDetalles(curso)" routerDirection="forward" class="custom-card">
+      <ion-img alt="{{ curso.nombre }}" src="assets/icon/img/appmovil.jpg"></ion-img>
+      <ion-card-header>
+        <ion-card-title>{{ curso.nombre }}</ion-card-title>
+        <ion-card-subtitle>{{ curso.sigla }} - {{ curso.seccion }}</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>{{ curso.nombreProfesor }}</ion-card-content>
+    </ion-card>
+  </ion-list>
+  
+
 </ion-content>
 
 <!--Boton para agregar clases-->

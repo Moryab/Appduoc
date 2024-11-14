@@ -52,7 +52,7 @@ export class LoginPage implements OnInit {
 
           // Redirigir según el dominio del correo electrónico
           if (this.usr.email.endsWith('@duocuc.cl')) {
-            this.router.navigate(['/curso-estud']);
+            this.router.navigate(['/asistencia-estud']);
           } else if (this.usr.email.endsWith('@profesor.duoc.cl')) {
             this.router.navigate(['/cursos']);
           } else {

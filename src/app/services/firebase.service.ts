@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile } from '@firebase/auth';
-import { Curso, UsuarioLog, UsuarioRegister } from '../interfaces/usuario';
+import { Curso, cursoEscaneado, UsuarioLog, UsuarioRegister } from '../interfaces/usuario';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
 import { map, Observable } from 'rxjs';
@@ -121,5 +121,115 @@ export class FirebaseService {
     return this.firestore.collection('asistencias').add(asistencia);
   }
 
-  
+  // Método para guardar la asistencia en Firestore
+  async registrarAsistencia(cursoId: string, alumnoId: string) {
+    try {
+      const asistenciaData = {
+        cursoId,
+        alumnoId,
+        fecha: new Date().toISOString(), // Fecha y hora de la asistencia
+      };
+
+      await this.firestore.collection('asistencias').add(asistenciaData);
+      console.log("Asistencia registrada con éxito.");
+    } catch (error) {
+      console.error("Error al registrar asistencia: ", error);
+      throw error;
+    }
+  }
+
+  // Método para obtener los registros de asistencia de un curso específico
+  getAsistencia(cursoId: string): Observable<any[]> {
+    return this.firestore.collection('asistencias', ref => ref.where("cursoId", "==", cursoId))
+      .snapshotChanges()
+      .pipe(
+        map(actions => actions.map(a => {
+          const data = a.payload.doc.data() as any;
+          const id = a.payload.doc.id;
+          return { id, ...data };
+        }))
+      );
+  }
+
+  //_____________________________
+  // Método para guardar el historial de escaneos de QR de un alumno
+  // En el servicio Firebase (por ejemplo, firebase.service.ts)
+  async guardarHistorialScan(cursoId: string, alumnoId: string) {
+    try {
+      const historialData = {
+        alumnoId,
+        cursoId,
+        fechaScan: new Date().toISOString(),
+      };
+
+      // Guardar en la colección 'historial_scans'
+      await this.firestore.collection('historial_scans').add(historialData);
+      console.log("Historial de escaneo guardado con éxito.");
+    } catch (error) {
+      console.error("Error al guardar el historial de escaneo:", error);
+      throw error;
+    }
+  }
+
+
+  // Método para obtener el historial de escaneos de un alumno
+  getHistorialScan(alumnoId: string): Observable<any[]> {
+    return this.firestore.collection('historial_scans', ref => ref.where("alumnoId", "==", alumnoId))
+      .snapshotChanges()
+      .pipe(
+        map(actions => actions.map(a => {
+          const data = a.payload.doc.data() as any;
+          const id = a.payload.doc.id;
+          return { id, ...data };
+        }))
+      );
+  }
+
+
+  // Método para obtener los detalles de un curso usando su ID
+  getCursoById(cursoId: string): Observable<any> {
+    return this.firestore.collection('cursos').doc(cursoId).valueChanges();
+  }
+
+  // Método para registrar un alumno en la subcolección 'alumnos' de un curso
+  async registrarAlumnoEnCurso(cursoInfo: any, alumnoId: string): Promise<void> {
+    try {
+      // Crear un identificador único para el curso basado en la información escaneada
+      const cursoId = `Curso: ${cursoInfo.nombre}, Sección: ${cursoInfo.seccion}, Profesor: ${cursoInfo.nombreProfesor}`;
+
+      // Referencia a la subcolección 'alumnos' dentro del curso específico
+      const cursoRef = this.firestore.collection('cursos').doc(cursoId).collection('alumnos').doc(alumnoId);
+
+      // Verificar si el alumno ya está registrado en la subcolección
+      const doc = await cursoRef.get().toPromise();
+      if (doc.exists) {
+        console.log('El alumno ya está registrado en este curso.');
+        return;
+      }
+
+      // Datos del alumno que se añadirán a la subcolección
+      const alumnoData = {
+        alumnoId,
+        nombre: "Nombre del Alumno",  // Puedes pasar el nombre real del alumno desde el perfil o información de usuario
+        fechaScan: new Date().toISOString()
+      };
+
+      // Añadir el alumno a la subcolección 'alumnos' en el curso
+      await cursoRef.set(alumnoData);
+      console.log('Alumno registrado en el curso con éxito');
+    } catch (error) {
+      console.error('Error al registrar el alumno:', error);
+    }
+  }
+
+
+  // Método para obtener los alumnos registrados en un curso
+  obtenerAlumnosDelCurso(cursoId: string): Observable<any[]> {
+    return this.firestore.collection('cursos')
+      .doc(cursoId)
+      .collection('alumnos')
+      .valueChanges(); // Para obtener los datos en tiempo real
+  }
+
+
 }

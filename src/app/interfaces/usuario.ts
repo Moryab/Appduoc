@@ -26,3 +26,13 @@ export interface Curso {
     nombreProfesor: string;
     fechaCreacion: string;
 }
+
+export interface cursoEscaneado {
+    alumnoId: string;
+    cursoId: string;
+    cursoNombre: string;
+    cursoProfesor: string;
+    cursoSeccion: string;
+    fechaScan: string;
+  }
+  

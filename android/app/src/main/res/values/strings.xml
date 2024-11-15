@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Appduoc</string>
+    <string name="title_activity_main">Appduoc</string>
+    <string name="package_name">moryab.appduoc</string>
+    <string name="custom_url_scheme">moryab.appduoc</string>
+</resources>

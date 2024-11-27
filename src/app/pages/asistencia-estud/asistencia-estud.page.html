@@ -6,33 +6,40 @@
 
   <ion-tab tab="asistencia">
     <!-- Contenido relacionado a la asistencia -->
-    <ion-content class="ion-padding">
-      <ion-list *ngIf="historialScans && historialScans.length > 0">
-        <ion-item *ngFor="let scan of historialScans">
-          <ion-label>
-            <h2>{{ scan.cursoId }}</h2> <!-- Mostrar los datos del curso escaneado -->
-            <p>Fecha: {{ scan.fechaScan }}</p>
-          </ion-label>
-        </ion-item>
-      </ion-list>
-    
-      <ion-item *ngIf="!historialScans || historialScans.length === 0">
+   <!-- Contenido relacionado a la asistencia -->
+   <ion-content class="ion-padding">
+    <!-- Mostrar historial de escaneos -->
+    <ion-list *ngIf="historialScans && historialScans.length > 0">
+      <ion-item *ngFor="let scan of historialScans">
         <ion-label>
-          <p>No hay historial de escaneos.</p>
+          <h2>{{ scan.curso.nombre }}</h2> <!-- Mostrar el nombre del curso -->
+          <p>Sección: {{ scan.curso.seccion }}</p> <!-- Mostrar la sección -->
+          <p>Profesor: {{ scan.curso.nombreProfesor }}</p> <!-- Mostrar el nombre del profesor -->
+          <p>Fecha y Hora: {{ scan.curso.fechaCreacion | date:'short' }}</p> <!-- Mostrar la fecha y hora -->
+          <p>Fecha Escaneo: {{ scan.fechaScan | date:'short' }}</p> <!-- Fecha del escaneo -->
         </ion-label>
       </ion-item>
-    </ion-content>
-    
-    
+    </ion-list>
 
+    <!-- Mensaje si no hay escaneos -->
+    <ion-item *ngIf="!historialScans || historialScans.length === 0">
+      <ion-label>
+        <p>No hay historial de escaneos.</p>
+      </ion-label>
+    </ion-item>
+  </ion-content>
 
-    <ion-content>
-      <ion-list>
-        <ion-item *ngFor="let barcode of barcodes">
-          <ion-label position="stacked">{{ barcode.format }}</ion-label>
-          <ion-input type="text" [value]="barcode.rawValue"></ion-input>
-        </ion-item>
-      </ion-list>
+  <!-- Escanear un nuevo código QR -->
+  <ion-content>
+    <ion-list>
+      <ion-item *ngFor="let barcode of barcodes">
+        <ion-label>
+          <h3>Tipo de código: {{ barcode.format }}</h3> <!-- Mostrar el tipo de código escaneado -->
+          <p>Código escaneado: {{ barcode.rawValue }}</p> <!-- Mostrar el valor del código escaneado -->
+        </ion-label>
+      </ion-item>
+    </ion-list>
+
       <ion-fab slot="fixed" vertical="bottom" horizontal="end">
         <ion-fab-button (click)="scan()" [disabled]="!isSupported">
           <ion-icon name="scan"></ion-icon>

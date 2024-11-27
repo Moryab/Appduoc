@@ -60,13 +60,12 @@ export class QrcodePage implements OnInit {
     console.log('QR Text generado:', this.qrText); // Verificar el contenido del QR Text
   }
 
-  // Método para guardar la asistencia en Firestore
   guardarAsistencia() {
     if (!this.curso) {
       console.error('No se ha seleccionado un curso');
       return;
     }
-
+  
     const fechaActual = new Date();
     const asistencia = {
       curso: this.curso.nombre, // Usar el curso seleccionado
@@ -76,7 +75,7 @@ export class QrcodePage implements OnInit {
       hora: fechaActual.toLocaleTimeString(),
       claseId: this.claseId, // Número de clase actual
     };
-
+  
     this.firebaseService.guardarAsistencia(asistencia).then(() => {
       console.log('Asistencia guardada:', asistencia);
       this.claseId++; // Incrementar el número de clase para la próxima asistencia
@@ -84,4 +83,5 @@ export class QrcodePage implements OnInit {
       console.error('Error al guardar la asistencia:', error);
     });
   }
+  
 }

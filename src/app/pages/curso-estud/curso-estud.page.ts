@@ -15,8 +15,6 @@ export class CursoEstudPage implements OnInit {
 
   isSupported = false;
   barcodes: Barcode[] = [];
-  asistencia: any[] = [];
-  historialScans: any[] = [];  // Almacena los escaneos
   alumnoId: string = ''; // ID del alumno actual
   curso: any;
 
@@ -24,9 +22,6 @@ export class CursoEstudPage implements OnInit {
     private firebaseService: FirebaseService) { }
 
   ngOnInit() {
-
-    this.loadHistorial();
-
     // Verificar si el dispositivo soporta la funcionalidad de escaneo
     BarcodeScanner.isSupported().then((result) => {
       this.isSupported = result.supported;
@@ -37,14 +32,6 @@ export class CursoEstudPage implements OnInit {
     if (user) {
       this.alumnoId = user.uid; // Obtener el ID del alumno logueado
     }
-  }
-
-  // Cargar el historial de escaneos desde Firebase
-  loadHistorial() {
-    this.firebaseService.getHistorialScan(this.alumnoId).subscribe(historial => {
-      console.log("Historial de escaneos:", historial);  // Verifica la estructura de los datos
-      this.historialScans = historial;  // Asigna los datos al array 'historialScans'
-    });
   }
 
   // Método para escanear el QR

@@ -7,23 +7,18 @@
     Probar Scan
   </ion-button>
 
-  <!--Tarjetas de cursos-->
-  <ion-card routerLink="/asistencia-estud" routerDirection="forward" class="custom-card">
-    <ion-img alt="Aplicaciones moviles" src="assets/icon/img/appmovil.jpg"></ion-img>
-    <ion-card-header>
-      <ion-card-title>APLICACIONES MOVILES_003D</ion-card-title>
-      <ion-card-subtitle>2024_2_CO_PGY4121_24236449_PCT</ion-card-subtitle>
-    </ion-card-header>
-    <ion-card-content>Alejandro Sepulveda</ion-card-content>
-  </ion-card>
+  <!-- Tarjetas dinámicas -->
+  <div *ngIf="cursos.length === 0" class="empty-message">
+    <p>No hay cursos registrados. Escanea un código QR para añadir uno.</p>
+  </div>
 
-  <ion-card routerLink="/asistencia-estud" routerDirection="forward" class="custom-card">
-    <ion-img alt="Base de datos" src="assets/icon/img/bdatos.png"></ion-img>
+  <ion-card *ngFor="let curso of cursos" routerLink="/asistencia-estud" routerDirection="forward" class="custom-card">
+    <ion-img [alt]="curso.nombre" [src]="'assets/icon/img/' + curso.imagen"></ion-img>
     <ion-card-header>
-      <ion-card-title>BASE DE DATOS_005D</ion-card-title>
-      <ion-card-subtitle>2024_2_CO_PGY4121_24236449_PCT</ion-card-subtitle>
+      <ion-card-title>{{ curso.nombre }}</ion-card-title>
+      <ion-card-subtitle>{{ curso.seccion }}</ion-card-subtitle>
     </ion-card-header>
-    <ion-card-content>Mabelcita</ion-card-content>
+    <ion-card-content>{{ curso.nombreProfesor }}</ion-card-content>
   </ion-card>
 
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
@@ -32,8 +27,6 @@
     </ion-fab-button>
   </ion-fab>
 </ion-content>
-
-
 
 <ion-footer>
   <ion-toolbar>

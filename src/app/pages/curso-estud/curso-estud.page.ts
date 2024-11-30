@@ -6,6 +6,7 @@ import { getAuth } from 'firebase/auth';
 import * as moment from 'moment'; // Importar la librería Moment.js para manejo de fechas
 
 
+
 @Component({
   selector: 'app-curso-estud',
   templateUrl: './curso-estud.page.html',
@@ -16,7 +17,7 @@ export class CursoEstudPage implements OnInit {
   isSupported = false;
   barcodes: Barcode[] = [];
   alumnoId: string = ''; // ID del alumno actual
-  curso: any;
+  cursos: any[] = []; // Array para almacenar los cursos
 
   constructor(private alertController: AlertController,
     private firebaseService: FirebaseService) { }
@@ -54,13 +55,17 @@ export class CursoEstudPage implements OnInit {
       const cursoInfo = this.parseCursoInfo(scannedCode);
 
       if (cursoInfo) {
+        // Registrar el escaneo en Firebase y mostrar alertas (código existente)
+
+        // Agregar el curso a la lista de cursos
+        this.cursos.push(cursoInfo);
+
         console.log("Información del curso:", cursoInfo);
 
         // Registrar el escaneo en Firebase
         try {
-          await this.registrarEscaneo(cursoInfo);
           // Marcar la asistencia del alumno
-          await this.marcarAsistencia(cursoInfo);
+          await this.guardarAsistencia(cursoInfo);
 
           // Mostrar alerta de registro exitoso
           const alert = await this.alertController.create({
@@ -122,27 +127,12 @@ export class CursoEstudPage implements OnInit {
     return null;
   }
 
-  // Método para marcar la asistencia de un alumno en el curso
-  async marcarAsistencia(cursoInfo: any): Promise<void> {
+  // Método para guardarla asistencia de un alumno en firebase
+  async guardarAsistencia(cursoInfo: any): Promise<void> {
     await this.firebaseService.registrarAlumnoEnCurso(cursoInfo, this.alumnoId);
   }
 
-  // Método para registrar el escaneo en Firebase
-  async registrarEscaneo(cursoInfo: any): Promise<void> {
-    try {
-      const user = getAuth().currentUser; // Obtener el usuario actual
 
-      if (user) {
-        // Guardar los datos del escaneo en Firebase
-        await this.firebaseService.guardarAsistencia(cursoInfo);  // Asegúrate de que `guardarAsistencia` se ejecute correctamente
-        console.log('Escaneo registrado en Firebase');
-      } else {
-        console.error('No hay usuario logueado.');
-      }
-    } catch (error) {
-      console.error('Error al registrar el escaneo:', error);
-    }
-  }
 
   // Solicitar permisos para usar la cámara
   async requestPermissions(): Promise<boolean> {

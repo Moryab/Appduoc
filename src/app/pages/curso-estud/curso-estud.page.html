@@ -3,6 +3,9 @@
 
   <!--Buscar-->
   <ion-searchbar class="search-bar"></ion-searchbar>
+  <ion-button (click)="scan()" expand="block" fill="clear" shape="round">
+    Probar Scan
+  </ion-button>
 
   <!--Tarjetas de cursos-->
   <ion-card routerLink="/asistencia-estud" routerDirection="forward" class="custom-card">
@@ -22,7 +25,15 @@
     </ion-card-header>
     <ion-card-content>Mabelcita</ion-card-content>
   </ion-card>
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button (click)="scan()" [disabled]="!isSupported">
+      <ion-icon name="scan"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
+
+
 
 <ion-footer>
   <ion-toolbar>

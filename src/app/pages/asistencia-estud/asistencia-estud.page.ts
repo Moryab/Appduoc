@@ -5,6 +5,7 @@ import { Barcode, BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
 import { AlertController } from '@ionic/angular';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { getAuth } from 'firebase/auth';
+import * as moment from 'moment'; // Importar la librería Moment.js para manejo de fechas
 
 @Component({
   selector: 'app-asistencia-estud',
@@ -72,8 +73,10 @@ export class AsistenciaEstudPage implements OnInit {
     this.barcodes.push(...barcodes);
 
     const scannedCode = this.barcodes[0]?.rawValue;
+    //const scannedCode = "Codigo escaneaado: curso:modelamiento base de datos, Seccion:Seccion0_1,Profesor:Mabel riquelme,fecha: 29/11/2024,Hora:12:31:36"
     if (scannedCode) {
       const cursoInfo = this.parseCursoInfo(scannedCode);
+
 
       // Verificar si el QR fue parseado correctamente
       if (cursoInfo) {
@@ -98,16 +101,22 @@ export class AsistenciaEstudPage implements OnInit {
       const nombre = partes[0].split(':')[1].trim();
       const seccion = partes[1].split(':')[1].trim();
       const nombreProfesor = partes[2].split(':')[1].trim();
-      const fecha = partes[3].split(':')[1].trim();
-      const hora = partes[4].split(':')[1].trim();
+      const fechaHora = partes[3].split(':')[1].trim() + ' ' + partes[4].split(':')[1].trim();
 
-      // Crear y devolver el objeto con la información extraída
-      return {
-        nombre,
-        seccion,
-        nombreProfesor,
-        fechaCreacion: new Date(`${fecha} ${hora}`).toISOString()
-      };
+      // Utilizar Moment.js para un manejo más flexible de fechas
+      const fechaCreacion = moment(fechaHora, 'DD/MM/YYYY HH:mm').toISOString(); // Ajustar el formato según tu necesidad
+
+      if (fechaCreacion) {
+        return {
+          nombre,
+          seccion,
+          nombreProfesor,
+          fechaCreacion
+        };
+      } else {
+        console.error('Formato de fecha y hora inválido');
+        return null;
+      }
     }
 
     return null;

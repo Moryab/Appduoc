@@ -3,11 +3,14 @@
 <ion-tabs>
   <!-- Contenido para cada tab -->
    
-
+  <ion-button (click)="scan()" expand="block" fill="clear" shape="round">
+    Click me
+  </ion-button>
   <ion-tab tab="asistencia">
     <!-- Contenido relacionado a la asistencia -->
    <!-- Contenido relacionado a la asistencia -->
    <ion-content class="ion-padding">
+    
     <!-- Mostrar historial de escaneos -->
     <ion-list *ngIf="historialScans && historialScans.length > 0">
       <ion-item *ngFor="let scan of historialScans">
@@ -20,6 +23,8 @@
         </ion-label>
       </ion-item>
     </ion-list>
+
+
 
     <!-- Mensaje si no hay escaneos -->
     <ion-item *ngIf="!historialScans || historialScans.length === 0">

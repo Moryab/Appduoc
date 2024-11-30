@@ -33,6 +33,12 @@ export class CursoEstudPage implements OnInit {
     if (user) {
       this.alumnoId = user.uid; // Obtener el ID del alumno logueado
     }
+
+    // Cargar los cursos desde localStorage al iniciar la aplicación
+    const cursosGuardados = localStorage.getItem('cursos');
+    if (cursosGuardados) {
+      this.cursos = JSON.parse(cursosGuardados);
+    }
   }
 
   // Método para escanear el QR
@@ -59,6 +65,8 @@ export class CursoEstudPage implements OnInit {
 
         // Agregar el curso a la lista de cursos
         this.cursos.push(cursoInfo);
+        // Guardar los cursos en localStorage
+        localStorage.setItem('cursos', JSON.stringify(this.cursos));
 
         console.log("Información del curso:", cursoInfo);
 

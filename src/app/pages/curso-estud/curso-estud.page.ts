@@ -4,6 +4,7 @@ import { AlertController } from '@ionic/angular';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { getAuth } from 'firebase/auth';
 import * as moment from 'moment'; // Importar la librería Moment.js para manejo de fechas
+import { UsuarioRegister } from 'src/app/interfaces/usuario';
 
 
 
@@ -13,6 +14,13 @@ import * as moment from 'moment'; // Importar la librería Moment.js para manejo
   styleUrls: ['./curso-estud.page.scss'],
 })
 export class CursoEstudPage implements OnInit {
+
+  user: UsuarioRegister = {
+    nombre: '', 
+    email: '',
+    password: '',
+  };
+  
 
   isSupported = false;
   barcodes: Barcode[] = [];

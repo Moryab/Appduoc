@@ -105,38 +105,9 @@ export class FirebaseService {
     );
   }
 
-  //====================ASISTENCIA=====================
-
-  async registrarAsistencia(cursoId: string, alumnoId: string) {
-    try {
-      const asistenciaData = {
-        cursoId,
-        alumnoId,
-        fecha: new Date().toISOString(),
-      };
-
-      await this.firestore.collection('asistencias').add(asistenciaData);
-      console.log("Asistencia registrada con éxito.");
-    } catch (error) {
-      console.error("Error al registrar asistencia: ", error);
-      throw error;
-    }
-  }
-
-  getAsistencia(cursoId: string): Observable<any[]> {
-    return this.firestore.collection('asistencias', ref => ref.where("cursoId", "==", cursoId))
-      .snapshotChanges()
-      .pipe(
-        map(actions => actions.map(a => {
-          const data = a.payload.doc.data() as any;
-          const id = a.payload.doc.id;
-          return { id, ...data };
-        }))
-      );
-  }
 
   //====================HISTORIAL DE ESCANEOS======================
-
+//Metodo usado en QRCODE
   async guardarAsistencia(asistencia: any) {
     try {
       const asistenciaData = {
@@ -155,27 +126,13 @@ export class FirebaseService {
       throw error;
     }
   }
-  
-
-  getHistorialScan(alumnoId: string): Observable<any[]> {
-    return this.firestore.collection('historial_scans', ref => ref.where("alumnoId", "==", alumnoId))
-      .snapshotChanges()
-      .pipe(
-        map(actions => actions.map(a => {
-          const data = a.payload.doc.data() as any;
-          const id = a.payload.doc.id;
-          return { id, ...data };
-        }))
-      );
-  }
-
   //====================REGISTRO DE ALUMNOS EN CURSOS======================
 
   async registrarAlumnoEnCurso(cursoInfo: any, alumnoId: string): Promise<void> {
     try {
       const cursoId = `Curso: ${cursoInfo.nombre}, Sección: ${cursoInfo.seccion}, Profesor: ${cursoInfo.nombreProfesor}`;
 
-      const cursoRef = this.firestore.collection('cursos').doc(cursoId).collection('alumnos').doc(alumnoId);
+      const cursoRef = this.firestore.collection('asistencias').doc(cursoId).collection('alumnos').doc(alumnoId);
 
       const doc = await cursoRef.get().toPromise();
       if (doc.exists) {

@@ -23,7 +23,6 @@ export class AsistenciaEstudPage implements OnInit {
 
   ngOnInit() {
     // Cargar alumnos
-    this.loadHistorial();
     this.loadInitialAlumnos();
   }
 
@@ -31,14 +30,6 @@ export class AsistenciaEstudPage implements OnInit {
   loadInitialAlumnos() {
     this.datosService.getAlumnos(20).subscribe(response => {
       this.items = response.results;
-    });
-  }
-
-  // Cargar el historial de escaneos desde Firebase
-  loadHistorial() {
-    this.firebaseService.getHistorialScan(this.alumnoId).subscribe(historial => {
-      console.log("Historial de escaneos:", historial);  // Verifica la estructura de los datos
-      this.historialScans = historial;  // Asigna los datos al array 'historialScans'
     });
   }
 }

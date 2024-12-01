@@ -42,6 +42,7 @@ export class AsistenciasPage implements OnInit {
     }
   }
 
+  //=======================================================================================
   // Método para navegar a la página QRCode con los detalles del curso
   goToQRCode() {
     const navigationExtras: NavigationExtras = {
@@ -53,7 +54,7 @@ export class AsistenciasPage implements OnInit {
     };
     this.router.navigate(['/qrcode'], navigationExtras);
   }
-
+//================================================================================================
   //guardar asistencias
   loadAsistencias() {
     // Observa los cambios en la colección de asistencias en Firestore
@@ -62,6 +63,7 @@ export class AsistenciasPage implements OnInit {
     });
   }
 
+  //=====================================================================================================================
   // Método para cargar más estudiantes (si tienes un scroll infinito)
   loadData(event: InfiniteScrollCustomEvent) {
     setTimeout(() => {

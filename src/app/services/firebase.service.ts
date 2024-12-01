@@ -168,11 +168,17 @@ export class FirebaseService {
       // Convertir la fecha al formato ISO 8601
       const fechaISO = new Date(fecha).toISOString().split('T')[0]; // Obtener solo la fecha
   
-      const fechaRef = this.firestore
-        .collection('asistencias')
-        .doc(cursoId)
-        .collection('fechas')
-        .doc(fechaISO);
+      // Asegurarnos de que el documento del curso existe o se crea
+      const cursoRef = this.firestore.collection('asistencias').doc(cursoId);
+  
+      // Este set crea el documento si no existe, o lo sobrescribe si ya existe
+      await cursoRef.set({}, { merge: true }); // Si el documento no existe, se crea vacío
+  
+      // Asegurarnos de que el documento para la fecha existe o se crea
+      const fechaRef = cursoRef.collection('fechas').doc(fechaISO);
+  
+      // Este set crea el documento de la fecha si no existe, o lo sobrescribe si ya existe
+      await fechaRef.set({}, { merge: true }); // Si el documento no existe, se crea vacío
   
       // Agregamos el alumno a la lista de alumnos presentes
       const alumnosRef = fechaRef.collection('alumnos');

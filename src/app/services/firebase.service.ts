@@ -117,22 +117,24 @@ export class FirebaseService {
   //Metodo usado en QRCODE
   async guardarAsistencia(asistencia: any) {
     try {
-      const asistenciaData = {
-        cursoId: asistencia.curso,
-        seccion: asistencia.seccion,
-        profesor: asistencia.profesor,
-        fecha: asistencia.fecha,
-        hora: asistencia.hora,
-        claseId: asistencia.claseId,
-      };
+        const cursoId = asistencia.sigla; // Usar la sigla como identificador único del curso
+        const cursoRef = this.firestore.collection('cursos').doc(cursoId); // Referencia al curso
 
-      await this.firestore.collection('asistencias').add(asistenciaData);
-      console.log("Asistencia registrada con éxito.");
+        // Agregar la asistencia a la subcolección 'asistencias'
+        await cursoRef.collection('asistencias').doc(asistencia.fecha).set({
+            profesor: asistencia.profesor,
+            fecha: asistencia.fecha,
+            hora: asistencia.hora,
+            claseId: asistencia.claseId,
+        });
+
+        console.log(`Asistencia guardada bajo el curso ${cursoId} con éxito.`);
     } catch (error) {
-      console.error("Error al registrar asistencia: ", error);
-      throw error;
+        console.error("Error al guardar la asistencia:", error);
+        throw error;
     }
-  }
+}
+
   //====================REGISTRO DE ALUMNOS EN CURSOS======================
 
   async registrarAlumnoEnCurso(cursoInfo: any, alumnoId: string): Promise<void> {

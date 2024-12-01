@@ -32,6 +32,7 @@ export interface cursoEscaneado {
     cursoId: string;
     cursoNombre: string;
     cursoProfesor: string;
+    cursosigla: string;
     cursoSeccion: string;
     fechaScan: string;
   }

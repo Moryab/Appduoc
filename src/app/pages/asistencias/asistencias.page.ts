@@ -49,7 +49,8 @@ export class AsistenciasPage implements OnInit {
       state: {
         nombre: this.curso.nombre,
         seccion: this.curso.seccion,
-        nombreProfesor: this.curso.nombreProfesor
+        nombreProfesor: this.curso.nombreProfesor,
+        sigla: this.curso.sigla
       }
     };
     this.router.navigate(['/qrcode'], navigationExtras);

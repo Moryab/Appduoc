@@ -3,10 +3,8 @@ import { Barcode, BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
 import { AlertController } from '@ionic/angular';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { getAuth } from 'firebase/auth';
-import * as moment from 'moment'; // Importar la librería Moment.js para manejo de fechas
+import * as moment from 'moment'; // Librería para manejar fechas
 import { UsuarioRegister } from 'src/app/interfaces/usuario';
-
-
 
 @Component({
   selector: 'app-curso-estud',
@@ -14,156 +12,115 @@ import { UsuarioRegister } from 'src/app/interfaces/usuario';
   styleUrls: ['./curso-estud.page.scss'],
 })
 export class CursoEstudPage implements OnInit {
-
   user: UsuarioRegister = {
-    nombre: '', 
+    nombre: '',
     email: '',
     password: '',
   };
-  
 
   isSupported = false;
   barcodes: Barcode[] = [];
   alumnoId: string = ''; // ID del alumno actual
-  cursos: any[] = []; // Array para almacenar los cursos
+  cursos: any[] = []; // Lista de cursos registrados
+  private cursoIds = new Set<string>(); // IDs únicos de cursos para evitar duplicados
 
-  constructor(private alertController: AlertController,
-    private firebaseService: FirebaseService) { }
+  constructor(
+    private alertController: AlertController,
+    private firebaseService: FirebaseService
+  ) {}
 
   ngOnInit() {
-    // Verificar si el dispositivo soporta la funcionalidad de escaneo
+    // Verificar soporte para el escáner de código de barras
     BarcodeScanner.isSupported().then((result) => {
       this.isSupported = result.supported;
     });
 
-    // Obtener el ID del alumno logueado
+    // Obtener ID del usuario autenticado
     const user = getAuth().currentUser;
     if (user) {
-      this.alumnoId = user.uid; // Obtener el ID del alumno logueado
+      this.alumnoId = user.uid;
     }
 
-    // Cargar los cursos desde localStorage al iniciar la aplicación
+    // Cargar cursos guardados desde localStorage
     const cursosGuardados = localStorage.getItem('cursos');
     if (cursosGuardados) {
       this.cursos = JSON.parse(cursosGuardados);
+      this.cursos.forEach((curso) => this.cursoIds.add(this.generateUniqueId(curso)));
     }
   }
 
-  // Método para escanear el QR
-  //comentar esta parte de codigo para probar boton
   async scan(): Promise<void> {
     const granted = await this.requestPermissions();
     if (!granted) {
-      this.presentAlert();
+      this.presentAlert('Permiso denegado', 'Autoriza los permisos de cámara para escanear códigos QR.');
       return;
     }
 
-    // Realizar el escaneo
-    //comentar esta parte de codigo para probar boton
     const { barcodes } = await BarcodeScanner.scan();
     this.barcodes.push(...barcodes);
 
     const scannedCode = this.barcodes[0]?.rawValue;
-    //const scannedCode = "Codigo escaneaado: curso:modelamiento base de datos, Seccion:Seccion0_1,Profesor:Mabel riquelme,fecha: 29/11/2024,Hora:12:31:36"
     if (scannedCode) {
       const cursoInfo = this.parseCursoInfo(scannedCode);
-
       if (cursoInfo) {
-        // Registrar el escaneo en Firebase y mostrar alertas (código existente)
-
-        // Agregar el curso a la lista de cursos
-        this.cursos.push(cursoInfo);
-        // Guardar los cursos en localStorage
-        localStorage.setItem('cursos', JSON.stringify(this.cursos));
-
-        console.log("Información del curso:", cursoInfo);
-
-        // Registrar el escaneo en Firebase
-        try {
-          // Marcar la asistencia del alumno
-          await this.guardarAsistencia(cursoInfo);
-
-          // Mostrar alerta de registro exitoso
-          const alert = await this.alertController.create({
-            header: '¡Registro Exitoso!',
-            message: 'Te has registrado en el curso.',
-            buttons: ['OK']
-          });
-          await alert.present();
-        } catch (error) {
-          console.error('Error al registrar el escaneo:', error);
-
-          // Mostrar alerta de error
-          const alert = await this.alertController.create({
-            header: 'Error',
-            message: 'No se pudo registrar en el curso. Por favor, intenta nuevamente.',
-            buttons: ['OK']
-          });
-          await alert.present();
+        const cursoId = this.generateUniqueId(cursoInfo);
+        if (this.cursoIds.has(cursoId)) {
+          this.presentAlert('Curso ya registrado', 'Este curso ya ha sido registrado.');
+        } else {
+          this.cursos.push(cursoInfo);
+          this.cursoIds.add(cursoId);
+          localStorage.setItem('cursos', JSON.stringify(this.cursos));
+          await this.registrarCurso(cursoInfo);
         }
       } else {
-        // Mostrar alerta de QR inválido
-        const alert = await this.alertController.create({
-          header: 'Código QR Inválido',
-          message: 'El código QR escaneado no es válido.',
-          buttons: ['OK']
-        });
-        await alert.present();
+        this.presentAlert('Código QR inválido', 'El código QR escaneado no es válido.');
       }
     }
   }
 
-  // Método para parsear la información del QR usando .split()
   parseCursoInfo(codigoQR: string): any {
-    // Dividir el código QR por comas
     const partes = codigoQR.split(',');
-
     if (partes.length === 5) {
       const nombre = partes[0].split(':')[1].trim();
       const seccion = partes[1].split(':')[1].trim();
       const nombreProfesor = partes[2].split(':')[1].trim();
-      const fechaHora = partes[3].split(':')[1].trim() + ' ' + partes[4].split(':')[1].trim();
-
-      // Utilizar Moment.js para un manejo más flexible de fechas
-      const fechaCreacion = moment(fechaHora, 'DD/MM/YYYY HH:mm').toISOString(); // Ajustar el formato según tu necesidad
+      const fechaHora = `${partes[3].split(':')[1].trim()} ${partes[4].split(':')[1].trim()}`;
+      const fechaCreacion = moment(fechaHora, 'DD/MM/YYYY HH:mm').toISOString();
 
       if (fechaCreacion) {
-        return {
-          nombre,
-          seccion,
-          nombreProfesor,
-          fechaCreacion
-        };
+        return { nombre, seccion, nombreProfesor, fechaCreacion };
       } else {
         console.error('Formato de fecha y hora inválido');
-        return null;
       }
     }
-
     return null;
   }
 
-  // Método para guardarla asistencia de un alumno en firebase
-  async guardarAsistencia(cursoInfo: any): Promise<void> {
-    await this.firebaseService.registrarAlumnoEnCurso(cursoInfo, this.alumnoId);
+  async registrarCurso(cursoInfo: any): Promise<void> {
+    try {
+      await this.firebaseService.registrarAlumnoEnCurso(cursoInfo, this.alumnoId);
+      this.presentAlert('¡Registro Exitoso!', 'Te has registrado en el curso.');
+    } catch (error) {
+      console.error('Error al registrar el curso:', error);
+      this.presentAlert('Error', 'No se pudo registrar en el curso. Por favor, intenta nuevamente.');
+    }
   }
 
+  generateUniqueId(cursoInfo: any): string {
+    return `${cursoInfo.nombre}-${cursoInfo.seccion}`;
+  }
 
-
-  // Solicitar permisos para usar la cámara
   async requestPermissions(): Promise<boolean> {
     const { camera } = await BarcodeScanner.requestPermissions();
     return camera === 'granted' || camera === 'limited';
   }
 
-  // Mostrar alerta si los permisos no fueron concedidos
-  async presentAlert(): Promise<void> {
+  async presentAlert(header: string, message: string): Promise<void> {
     const alert = await this.alertController.create({
-      header: 'Permiso denegado',
-      message: 'Para usar la aplicación autorizar los permisos de cámara.',
-      buttons: ['OK']
+      header,
+      message,
+      buttons: ['OK'],
     });
     await alert.present();
   }
-
 }

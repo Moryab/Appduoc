@@ -36,3 +36,9 @@ export interface cursoEscaneado {
     fechaScan: string;
   }
   
+  export interface AlumnoData {
+    alumnoId: string;
+    fechaScan: string;  // Puedes cambiar el tipo según lo que necesites
+    horaScan: string;   // Puede ser un string con formato de hora o un timestamp
+  }
+  

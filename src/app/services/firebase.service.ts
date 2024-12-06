@@ -5,6 +5,13 @@ import { Curso, UsuarioLog, UsuarioRegister } from '../interfaces/usuario';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
 import { map, Observable } from 'rxjs';
+import { getFirestore, doc, collection, getDocs, getDoc } from "firebase/firestore";
+import { forkJoin } from 'rxjs';
+import { mergeMap } from 'rxjs/operators';
+import { AlumnoData } from '../interfaces/usuario';  // Ajusta la ruta según tu estructura de carpetas
+
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -133,10 +140,10 @@ export class FirebaseService {
       const cursoId = `${cursoInfo.nombre}-${cursoInfo.seccion}`; // ID único basado en curso y sección
       const fecha = cursoInfo.fecha;  // Usamos la fecha extraída del QR
       const hora = cursoInfo.hora;    // Usamos la hora extraída del QR
-  
+
       const cursoRef = this.firestore.collection('asistencias').doc(fecha); // Fecha como documento
       const alumnosRef = cursoRef.collection('alumnos');
-  
+
       // Guardar al alumno con los detalles, usando la fecha extraída del QR
       await alumnosRef.doc(alumnoId).set({
         alumnoId,
@@ -144,15 +151,15 @@ export class FirebaseService {
         hora,
         registradoEn: fecha // Aquí usamos la fecha del QR
       });
-  
+
       console.log('Alumno registrado con éxito.');
     } catch (error) {
       console.error('Error al registrar al alumno en curso:', error);
       throw error;
     }
   }
-  
-  
+
+
 
   obtenerAlumnosDelCurso(cursoId: string): Observable<any[]> {
     return this.firestore.collection('cursos')
@@ -164,22 +171,22 @@ export class FirebaseService {
   async registrarAsistenciaCurso(cursoInfo: any, alumnoId: string, fecha: string, hora: string): Promise<void> {
     try {
       const cursoId = `${cursoInfo.nombre}-${cursoInfo.seccion}`; // Identificador único para el curso y sección
-  
+
       // Convertir la fecha al formato ISO 8601
       const fechaISO = new Date(fecha).toISOString().split('T')[0]; // Obtener solo la fecha
-  
+
       // Asegurarnos de que el documento del curso existe o se crea
       const cursoRef = this.firestore.collection('asistencias').doc(cursoId);
-  
+
       // Este set crea el documento si no existe, o lo sobrescribe si ya existe
       await cursoRef.set({}, { merge: true }); // Si el documento no existe, se crea vacío
-  
+
       // Asegurarnos de que el documento para la fecha existe o se crea
       const fechaRef = cursoRef.collection('fechas').doc(fechaISO);
-  
+
       // Este set crea el documento de la fecha si no existe, o lo sobrescribe si ya existe
       await fechaRef.set({}, { merge: true }); // Si el documento no existe, se crea vacío
-  
+
       // Agregamos el alumno a la lista de alumnos presentes
       const alumnosRef = fechaRef.collection('alumnos');
       await alumnosRef.doc(alumnoId).set({
@@ -187,15 +194,96 @@ export class FirebaseService {
         fechaScan: new Date().toISOString(), // Almacenamos la fecha y hora del escaneo
         horaScan: hora // Guardamos la hora también
       });
-  
+
       console.log('Asistencia registrada con éxito.');
     } catch (error) {
       console.error('Error al registrar asistencia: ', error);
       throw error;
     }
   }
+
+
+
+  obtenerCursoYAsistencia = async (cursoId: string, fecha: string) => {
+    const db = getFirestore();
+  
+    try {
+      // Obtener los datos del curso desde la colección 'cursos'
+      const cursoRef = doc(db, "cursos", cursoId);
+      const cursoSnapshot = await getDoc(cursoRef);  // Usamos getDoc para obtener un solo documento
+  
+      if (!cursoSnapshot.exists()) {
+        console.error("Curso no encontrado");
+        return;
+      }
+  
+      const cursoData = cursoSnapshot.data();  // Aquí accedemos a los datos del documento
+      console.log("Datos del curso:", cursoData);
+  
+      // Obtener las fechas de asistencia desde la colección 'asistencias' para ese curso y fecha
+      const fechasRef = collection(doc(db, "asistencias", cursoId), "fechas");
+      const fechaRef = doc(fechasRef, fecha);
+      const alumnosSnapshot = await getDocs(collection(fechaRef, "alumnos"));
+  
+      if (alumnosSnapshot.empty) {
+        console.log("No hay registros de asistencia para esta fecha");
+        return;
+      }
+  
+      // Mostrar la asistencia de los alumnos para esa fecha
+      alumnosSnapshot.forEach((doc) => {
+        console.log(doc.id, " => ", doc.data());
+      });
+  
+    } catch (error) {
+      console.error("Error al obtener curso y asistencia:", error);
+    }
+  };
   
 
+  getHistorialAsistencias(cursoId: string, seccionId: string): Observable<any[]> {
+    const historialRef = this.firestore.collection(`asistencias/${cursoId}_${seccionId}/fechas`);
+    
+    return historialRef.snapshotChanges().pipe(
+      mergeMap(fechasSnapshot => {
+        const fechasObservables = fechasSnapshot.map(fechaDoc => {
+          const fecha = fechaDoc.payload.doc.id;
+  
+          // Colección de alumnos para esta fecha
+          const alumnosRef = this.firestore.collection(
+            `asistencias/${cursoId}_${seccionId}/fechas/${fecha}/alumnos`
+          );
+  
+          return alumnosRef.snapshotChanges().pipe(
+            map(alumnosSnapshot => {
+              const alumnos = alumnosSnapshot.map(alumnoDoc => {
+                const alumnoData: AlumnoData = alumnoDoc.payload.doc.data() as AlumnoData; // Asegúrate de hacer un cast
+                const alumnoId = alumnoDoc.payload.doc.id;  // Obtener el ID del alumno
+  
+                return {
+                  alumnoId,
+                  ...alumnoData // Datos del alumno
+                };
+              });
+  
+              return {
+                fecha, // Fecha actual
+                alumnos // Alumnos de esa fecha
+              };
+            })
+          );
+        });
+  
+        // Retornar un observable combinado con todas las fechas y sus alumnos
+        return forkJoin(fechasObservables);
+      })
+    );
+  }
+  
+  
+  
+  
+  
 
 
 }

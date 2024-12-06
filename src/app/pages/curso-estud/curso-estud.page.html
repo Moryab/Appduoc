@@ -1,24 +1,41 @@
 <app-encabezado titulo="Asistencias"></app-encabezado>
 <ion-content class="ion-padding">
-
-  <!--Buscar-->
   <ion-searchbar class="search-bar"></ion-searchbar>
-  <ion-button (click)="scan()" expand="block" fill="clear" shape="round">
+  <ion-button (click)="getFechasAsistencia(cursoId, todayDate)" expand="block" fill="clear" shape="round">
     Probar Scan
   </ion-button>
 
-  <!-- Tarjetas dinámicas -->
   <div *ngIf="cursos.length === 0" class="empty-message">
     <p>No hay cursos registrados. Escanea un código QR para añadir uno.</p>
   </div>
 
-  <ion-card *ngFor="let curso of cursos" routerLink="/asistencia-estud" routerDirection="forward" class="custom-card">
+  <ion-card *ngFor="let curso of cursos" class="custom-card">
     <ion-img [alt]="curso.nombre" [src]="'assets/icon/img/appmovil.jpg'"></ion-img>
     <ion-card-header>
       <ion-card-title>{{ curso.nombre }}</ion-card-title>
       <ion-card-subtitle>{{ curso.seccion }}</ion-card-subtitle>
     </ion-card-header>
     <ion-card-content>{{ curso.nombreProfesor }}</ion-card-content>
+
+    <ion-item (click)="curso.showDates = !curso.showDates">
+      <ion-label>
+        {{ curso.showDates ? 'Ocultar fechas de asistencia' : 'Ver fechas de asistencia' }}
+      </ion-label>
+      <ion-icon [name]="curso.showDates ? 'chevron-up' : 'chevron-down'" slot="end"></ion-icon>
+    </ion-item>
+
+    <!-- Usa [hidden] en lugar de *ngIf -->
+    <ion-list [hidden]="!curso.showDates">
+      <ion-item *ngIf="!curso.fechas || curso.fechas.length === 0">
+        <ion-spinner></ion-spinner>
+        <ion-label>Cargando fechas...</ion-label>
+      </ion-item>
+      <ion-item *ngFor="let fecha of curso.fechas">
+        <ion-label>{{ fecha }}</ion-label>
+      </ion-item>
+    </ion-list>
+    
+    
   </ion-card>
 
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">

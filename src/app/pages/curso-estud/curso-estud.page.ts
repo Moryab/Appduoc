@@ -49,62 +49,110 @@ export class CursoEstudPage implements OnInit {
     }
   }
 
-  async scan(): Promise<void> {
-    const granted = await this.requestPermissions();
-    if (!granted) {
-      this.presentAlert('Permiso denegado', 'Autoriza los permisos de cámara para escanear códigos QR.');
-      return;
-    }
-
-    const { barcodes } = await BarcodeScanner.scan();
-    this.barcodes.push(...barcodes);
-
-    const scannedCode = this.barcodes[0]?.rawValue;
-    if (scannedCode) {
-      const cursoInfo = this.parseCursoInfo(scannedCode);
-      if (cursoInfo) {
-        const cursoId = this.generateUniqueId(cursoInfo);
-        if (this.cursoIds.has(cursoId)) {
-          this.presentAlert('Curso ya registrado', 'Este curso ya ha sido registrado.');
-        } else {
-          this.cursos.push(cursoInfo);
-          this.cursoIds.add(cursoId);
-          localStorage.setItem('cursos', JSON.stringify(this.cursos));
-          await this.registrarCurso(cursoInfo);
-        }
-      } else {
-        this.presentAlert('Código QR inválido', 'El código QR escaneado no es válido.');
-      }
-    }
-  }
-
   parseCursoInfo(codigoQR: string): any {
     const partes = codigoQR.split(',');
     if (partes.length === 5) {
       const nombre = partes[0].split(':')[1].trim();
       const seccion = partes[1].split(':')[1].trim();
       const nombreProfesor = partes[2].split(':')[1].trim();
+      
+      // Extraemos la fecha y la hora
       const fechaHora = `${partes[3].split(':')[1].trim()} ${partes[4].split(':')[1].trim()}`;
-      const fechaCreacion = moment(fechaHora, 'DD/MM/YYYY HH:mm').toISOString();
-
-      if (fechaCreacion) {
-        return { nombre, seccion, nombreProfesor, fechaCreacion };
+      console.log('FechaHora extraída del QR:', fechaHora); // Verifica que esta cadena sea correcta
+  
+      // Verificar si el formato de fecha y hora es válido
+      const fecha = moment(fechaHora, 'DD/MM/YYYY HH:mm');
+      if (fecha.isValid()) {
+        const formattedFecha = fecha.format('DD/MM/YYYY'); // Solo la fecha
+        const formattedHora = fecha.format('HH:mm'); // Solo la hora
+  
+        // Retorna el objeto con los valores correctos
+        return { 
+          nombre, 
+          seccion, 
+          nombreProfesor, 
+          fecha: formattedFecha, 
+          hora: formattedHora 
+        };
       } else {
-        console.error('Formato de fecha y hora inválido');
+        console.error('Formato de fecha y hora inválido', fechaHora);
       }
     }
     return null;
   }
-
+  
+  async scan(): Promise<void> {
+    const granted = await this.requestPermissions();
+    if (!granted) {
+      this.presentAlert('Permiso denegado', 'Autoriza los permisos de cámara para escanear códigos QR.');
+      return;
+    }
+  
+    const { barcodes } = await BarcodeScanner.scan();
+    this.barcodes.push(...barcodes);
+  
+    const scannedCode = this.barcodes[0]?.rawValue;
+    if (scannedCode) {
+      const cursoInfo = this.parseCursoInfo(scannedCode);
+      if (cursoInfo) {
+        const cursoId = this.generateUniqueId(cursoInfo);
+        
+        // Verificamos si el curso ya está registrado
+        if (this.cursoIds.has(cursoId)) {
+          // Si el curso ya está registrado, registramos la asistencia directamente
+          // Obtener el ID del alumno actual
+          const alumnoId = this.alumnoId;
+  
+          // Verificar que 'hora' esté presente en cursoInfo
+          if (cursoInfo.hora) {
+            // Registrar asistencia en Firebase
+            await this.firebaseService.registrarAsistenciaCurso(cursoInfo, alumnoId, cursoInfo.fecha, cursoInfo.hora);
+          } else {
+            console.error('Hora no disponible para el curso', cursoInfo);
+            this.presentAlert('Error', 'No se pudo obtener la hora del curso.');
+          }
+          
+        } else {
+          // Si el curso no está registrado, lo agregamos a la lista
+          this.cursos.push(cursoInfo);
+          this.cursoIds.add(cursoId);
+          localStorage.setItem('cursos', JSON.stringify(this.cursos));
+  
+          // Obtener el ID del alumno actual
+          const alumnoId = this.alumnoId;
+  
+          // Verificar que 'hora' esté presente en cursoInfo
+          if (cursoInfo.hora) {
+            // Registrar asistencia en Firebase
+            await this.firebaseService.registrarAsistenciaCurso(cursoInfo, alumnoId, cursoInfo.fecha, cursoInfo.hora);
+          } else {
+            console.error('Hora no disponible para el curso', cursoInfo);
+            this.presentAlert('Error', 'No se pudo obtener la hora del curso.');
+          }
+        }
+      } else {
+        this.presentAlert('Código QR inválido', 'El código QR escaneado no es válido.');
+      }
+    }
+  }
+  
+  
+  
+  
   async registrarCurso(cursoInfo: any): Promise<void> {
     try {
+      // Guardamos el curso en Firebase
       await this.firebaseService.registrarAlumnoEnCurso(cursoInfo, this.alumnoId);
+  
+      // Mostramos confirmación al usuario
       this.presentAlert('¡Registro Exitoso!', 'Te has registrado en el curso.');
     } catch (error) {
       console.error('Error al registrar el curso:', error);
       this.presentAlert('Error', 'No se pudo registrar en el curso. Por favor, intenta nuevamente.');
     }
   }
+  
+  
 
   generateUniqueId(cursoInfo: any): string {
     return `${cursoInfo.nombre}-${cursoInfo.seccion}`;

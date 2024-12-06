@@ -107,7 +107,7 @@ export class FirebaseService {
 
 
   //====================HISTORIAL DE ESCANEOS======================
-//Metodo usado en QRCODE
+  //Metodo usado en QRCODE
   async guardarAsistencia(asistencia: any) {
     try {
       const asistenciaData = {
@@ -118,7 +118,7 @@ export class FirebaseService {
         hora: asistencia.hora,
         claseId: asistencia.claseId,
       };
-  
+
       await this.firestore.collection('asistencias').add(asistenciaData);
       console.log("Asistencia registrada con éxito.");
     } catch (error) {
@@ -130,28 +130,29 @@ export class FirebaseService {
 
   async registrarAlumnoEnCurso(cursoInfo: any, alumnoId: string): Promise<void> {
     try {
-      const cursoId = `Curso: ${cursoInfo.nombre}, Sección: ${cursoInfo.seccion}, Profesor: ${cursoInfo.nombreProfesor}`;
-
-      const cursoRef = this.firestore.collection('asistencias').doc(cursoId).collection('alumnos').doc(alumnoId);
-
-      const doc = await cursoRef.get().toPromise();
-      if (doc.exists) {
-        console.log('El alumno ya está registrado en este curso.');
-        return;
-      }
-
-      const alumnoData = {
+      const cursoId = `${cursoInfo.nombre}-${cursoInfo.seccion}`; // ID único basado en curso y sección
+      const fecha = cursoInfo.fecha;  // Usamos la fecha extraída del QR
+      const hora = cursoInfo.hora;    // Usamos la hora extraída del QR
+  
+      const cursoRef = this.firestore.collection('asistencias').doc(fecha); // Fecha como documento
+      const alumnosRef = cursoRef.collection('alumnos');
+  
+      // Guardar al alumno con los detalles, usando la fecha extraída del QR
+      await alumnosRef.doc(alumnoId).set({
         alumnoId,
-        nombre: "Nombre del Alumno",  // Reemplaza con el nombre real del alumno desde el perfil
-        fechaScan: new Date().toISOString()
-      };
-
-      await cursoRef.set(alumnoData);
-      console.log('Alumno registrado en el curso con éxito');
+        curso: cursoId,
+        hora,
+        registradoEn: fecha // Aquí usamos la fecha del QR
+      });
+  
+      console.log('Alumno registrado con éxito.');
     } catch (error) {
-      console.error('Error al registrar el alumno:', error);
+      console.error('Error al registrar al alumno en curso:', error);
+      throw error;
     }
   }
+  
+  
 
   obtenerAlumnosDelCurso(cursoId: string): Observable<any[]> {
     return this.firestore.collection('cursos')
@@ -159,4 +160,36 @@ export class FirebaseService {
       .collection('alumnos')
       .valueChanges();
   }
+
+  async registrarAsistenciaCurso(cursoInfo: any, alumnoId: string, fecha: string, hora: string): Promise<void> {
+    try {
+      const cursoId = `${cursoInfo.nombre}-${cursoInfo.seccion}`; // Identificador único para el curso y sección
+  
+      // Convertir la fecha al formato ISO 8601
+      const fechaISO = new Date(fecha).toISOString().split('T')[0]; // Obtener solo la fecha
+  
+      const fechaRef = this.firestore
+        .collection('asistencias')
+        .doc(cursoId)
+        .collection('fechas')
+        .doc(fechaISO);
+  
+      // Agregamos el alumno a la lista de alumnos presentes
+      const alumnosRef = fechaRef.collection('alumnos');
+      await alumnosRef.doc(alumnoId).set({
+        alumnoId,
+        fechaScan: new Date().toISOString(), // Almacenamos la fecha y hora del escaneo
+        horaScan: hora // Guardamos la hora también
+      });
+  
+      console.log('Asistencia registrada con éxito.');
+    } catch (error) {
+      console.error('Error al registrar asistencia: ', error);
+      throw error;
+    }
+  }
+  
+
+
+
 }

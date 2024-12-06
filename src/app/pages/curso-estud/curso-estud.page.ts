@@ -123,6 +123,7 @@ export class CursoEstudPage implements OnInit {
             cursoInfo.fecha,
             cursoInfo.hora
           );
+          this.presentAlert('Asistencia Registrada', 'Se ha registrado su asistencia con exito');
         } else {
           console.error('Hora no disponible para el curso', cursoInfo);
           this.presentAlert('Error', 'No se pudo obtener la hora del curso.');
